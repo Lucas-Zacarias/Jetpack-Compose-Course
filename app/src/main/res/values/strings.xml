@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">Jetpack Compose Course</string>
+    <string name="name">Lucas</string>
+    <string name="greeting_card">Greeting Card</string>
+    <string name="happy_birthday_text">Happy Birthday Lucas!</string>
+    <string name="signature_text">From Lucas</string>
+    <string name="happy_birthday">Happy Birthday</string>
+    <string name="title_quadrant_1">Text composable</string>
+    <string name="title_quadrant_2">Image composable</string>
+    <string name="title_quadrant_3">Row composable</string>
+    <string name="title_quadrant_4">Column composable</string>
+    <string name="description_quadrant_1">Displays text and follows the recommended Material Design guidelines.</string>
+    <string name="description_quadrant_2">Creates a composable that lays out and draws a given Painter class object.</string>
+    <string name="description_quadrant_3">A layout composable that places its children in a horizontal sequence.</string>
+    <string name="description_quadrant_4">A layout composable that places its children in a vertical sequence.</string>
+    <string name="quadrants">Quadrants</string>
+    <string name="title">Jetpack Compose tutorial</string>
+    <string name="description">Jetpack Compose is a modern toolkit for building native Android UI. Compose simplifies and accelerates UI development on Android with less code, powerful tools, and intuitive Kotlin APIs.</string>
+    <string name="large_text">In this tutorial, you build a simple UI component with declarative functions. You call Compose functions to say what elements you want and the Compose compiler does the rest. Compose is built around Composable functions. These functions let you define your app\'s UI programmatically because they let you describe how it should look and provide data dependencies, rather than focus on the process of the UI\'s construction, such as initializing an element and then attaching it to a parent. To create a Composable function, you add the @Composable annotation to the function name.</string>
+    <string name="article">Article</string>
+    <string name="title_task_manager">All tasks completed</string>
+    <string name="description_task_manager">Nice work!</string>
+    <string name="task_manager">Task Manager</string>
+    <string name="phone_number">+54 11 2233 4455</string>
+    <string name="social_media">\@lucaszacarias.developer</string>
+    <string name="email">lucaszacarias.developer@gmail.com</string>
+    <string name="name_and_surname">Lucas Zacarias</string>
+    <string name="position">Android Developer</string>
+    <string name="business_card">Business Card</string>
 </resources>
