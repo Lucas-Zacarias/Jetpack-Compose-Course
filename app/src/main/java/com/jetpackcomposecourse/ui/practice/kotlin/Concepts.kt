@@ -15,13 +15,13 @@ open class SmartDevice(val name: String, val category: String) {
     var deviceStatus = "online"
     open val deviceType = "unknown"
 
-    constructor(name: String, category: String, statusCode: Int) : this(name, category) {
+    /*constructor(name: String, category: String, statusCode: Int) : this(name, category) {
         deviceStatus = when (statusCode) {
             0 -> "offline"
             1 -> "online"
             else -> "unknown"
         }
-    }
+    }*/
 
     open fun turnOn() {
         deviceStatus = "on"
@@ -112,11 +112,16 @@ class SmartHome(
     val smartLightDevice: SmartLightDevice
 ) {
     // The SmartHome class HAS-A smart TV device and smart light.
+    var deviceTurnOnCount = 0
+        private set
+
     fun turnOnTv() {
+        deviceTurnOnCount++
         smartTvDevice.turnOn()
     }
 
     fun turnOffTv() {
+        deviceTurnOnCount--
         smartTvDevice.turnOff()
     }
 
@@ -137,10 +142,12 @@ class SmartHome(
     }
 
     fun turnOnLight() {
+        deviceTurnOnCount++
         smartLightDevice.turnOn()
     }
 
     fun turnOffLight() {
+        deviceTurnOnCount--
         smartLightDevice.turnOff()
     }
 
