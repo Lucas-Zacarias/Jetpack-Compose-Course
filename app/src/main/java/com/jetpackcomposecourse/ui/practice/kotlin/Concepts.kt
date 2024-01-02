@@ -4,11 +4,17 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 fun main() {
-    var smartDevice: SmartDevice = SmartTvDevice("Android TV", "Entertainment")
-    smartDevice.turnOn()
+    val smartTvDevice = SmartTvDevice("Android TV", "Entertainment")
+    //smartTvDevice.turnOn()
 
-    smartDevice = SmartLightDevice("Google Light", "Utility")
-    smartDevice.turnOn()
+    val smartLightDevice = SmartLightDevice("Google Light", "Utility")
+    //smartLightDevice.turnOn()
+
+    val smartHome = SmartHome(smartTvDevice, smartLightDevice)
+    smartHome.turnOnTv()
+    smartHome.increaseTvVolume()
+    smartHome.printSmartTvInfo()
+    smartHome.printSmartLightInfo()
 }
 
 open class SmartDevice(val name: String, val category: String) {
@@ -29,6 +35,10 @@ open class SmartDevice(val name: String, val category: String) {
 
     open fun turnOff() {
         deviceStatus = "off"
+    }
+
+    open fun printDeviceInfo() {
+        println("Device name: $name, category: $category, type: $deviceType")
     }
 }
 
@@ -108,12 +118,11 @@ class SmartLightDevice(deviceName: String, deviceCategory: String) :
 }
 
 class SmartHome(
-    val smartTvDevice: SmartTvDevice,
-    val smartLightDevice: SmartLightDevice
+    private val smartTvDevice: SmartTvDevice,
+    private val smartLightDevice: SmartLightDevice
 ) {
     // The SmartHome class HAS-A smart TV device and smart light.
-    var deviceTurnOnCount = 0
-        private set
+    var deviceTurnOnCount by RangeRegulator(initialValue = 0, minValue = 0, maxValue = 100)
 
     fun turnOnTv() {
         deviceTurnOnCount++
@@ -121,24 +130,34 @@ class SmartHome(
     }
 
     fun turnOffTv() {
-        deviceTurnOnCount--
-        smartTvDevice.turnOff()
+        if(verifyIfDeviceStatusIsOn(smartTvDevice.deviceStatus)) {
+            deviceTurnOnCount--
+            smartTvDevice.turnOff()
+        }
     }
 
     fun increaseTvVolume() {
-        smartTvDevice.increaseSpeakerVolume()
+        if(verifyIfDeviceStatusIsOn(smartTvDevice.deviceStatus)) {
+            smartTvDevice.increaseSpeakerVolume()
+        }
     }
 
     fun decreaseTvVolume() {
-        smartTvDevice.decreaseSpeakerVolume()
+        if(verifyIfDeviceStatusIsOn(smartTvDevice.deviceStatus)) {
+            smartTvDevice.decreaseSpeakerVolume()
+        }
     }
 
     fun changeTvChannelToNext() {
-        smartTvDevice.nextChannel()
+        if(verifyIfDeviceStatusIsOn(smartTvDevice.deviceStatus)) {
+            smartTvDevice.nextChannel()
+        }
     }
 
     fun changeTvChannelToPrevious() {
-        smartTvDevice.previousChannel()
+        if(verifyIfDeviceStatusIsOn(smartTvDevice.deviceStatus)) {
+            smartTvDevice.previousChannel()
+        }
     }
 
     fun turnOnLight() {
@@ -147,21 +166,44 @@ class SmartHome(
     }
 
     fun turnOffLight() {
-        deviceTurnOnCount--
-        smartLightDevice.turnOff()
+        if(verifyIfDeviceStatusIsOn(smartLightDevice.deviceStatus)) {
+            deviceTurnOnCount--
+            smartLightDevice.turnOff()
+        }
     }
 
     fun increaseLightBrightness() {
-        smartLightDevice.increaseBrightness()
+        if(verifyIfDeviceStatusIsOn(smartLightDevice.deviceStatus)) {
+            smartLightDevice.increaseBrightness()
+        }
     }
 
     fun decreaseLightBrighness() {
-        smartLightDevice.decreaseBrightness()
+        if(verifyIfDeviceStatusIsOn(smartLightDevice.deviceStatus)) {
+            smartLightDevice.decreaseBrightness()
+        }
     }
 
     fun turnOffAllDevices() {
-        turnOffTv()
-        turnOffLight()
+        if(verifyIfDeviceStatusIsOn(smartLightDevice.deviceStatus)) {
+            turnOffLight()
+        }
+
+        if(verifyIfDeviceStatusIsOn(smartTvDevice.deviceStatus)) {
+            turnOffTv()
+        }
+    }
+
+    fun verifyIfDeviceStatusIsOn(deviceStatus: String): Boolean {
+        return deviceStatus.lowercase() == "on"
+    }
+
+    fun printSmartTvInfo() {
+        smartTvDevice.printDeviceInfo()
+    }
+
+    fun printSmartLightInfo() {
+        smartLightDevice.printDeviceInfo()
     }
 
 }
