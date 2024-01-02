@@ -1,5 +1,8 @@
 package com.jetpackcomposecourse.ui.practice.kotlin
 
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
+
 fun main() {
     var smartDevice: SmartDevice = SmartTvDevice("Android TV", "Entertainment")
     smartDevice.turnOn()
@@ -34,19 +37,9 @@ class SmartTvDevice(deviceName: String, deviceCategory: String) :
     // Smart TV IS-A smart device.
     override val deviceType = "Smart TV"
 
-    var speakerVolume = 2
-        set(value) {
-            if (value in 0..100) {
-                field = value
-            }
-        }
+    private var speakerVolume by RangeRegulator(initialValue = 2, minValue = 0, maxValue = 100)
 
-    var channelNumber = 1
-        set(value) {
-            if (value in 0..200) {
-                field = value
-            }
-        }
+    private var channelNumber by RangeRegulator(initialValue = 1, minValue = 0, maxValue = 200)
 
     fun increaseSpeakerVolume() {
         speakerVolume++
@@ -87,12 +80,8 @@ class SmartLightDevice(deviceName: String, deviceCategory: String) :
     SmartDevice(name = deviceName, category = deviceCategory) {
     // Smart Light IS-A smart device.
     override val deviceType = "Smart Light"
-    var brightnessLevel = 0
-        set(value) {
-            if (value in 0..100) {
-                field = value
-            }
-        }
+
+    private var brightnessLevel by RangeRegulator(initialValue = 0, minValue = 0, maxValue = 100)
 
     fun increaseBrightness() {
         brightnessLevel++
@@ -166,6 +155,25 @@ class SmartHome(
     fun turnOffAllDevices() {
         turnOffTv()
         turnOffLight()
+    }
+
+}
+
+class RangeRegulator(
+    initialValue: Int,
+    private val minValue: Int,
+    private val maxValue: Int
+) : ReadWriteProperty<Any?, Int> {
+    var fieldData = initialValue
+
+    override fun getValue(thisRef: Any?, property: KProperty<*>): Int {
+        return fieldData
+    }
+
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) {
+        if (value in minValue..maxValue) {
+            fieldData = value
+        }
     }
 
 }
