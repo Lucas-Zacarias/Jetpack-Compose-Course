@@ -27,4 +27,5 @@
     <string name="name_and_surname">Lucas Zacarias</string>
     <string name="position">Android Developer</string>
     <string name="business_card">Business Card</string>
+    <string name="roll">Roll</string>
 </resources>
