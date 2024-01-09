@@ -27,4 +27,14 @@
     <string name="name_and_surname">Lucas Zacarias</string>
     <string name="position">Android Developer</string>
     <string name="business_card">Business Card</string>
+    <string name="los_girasoles">Los Girasoles</string>
+    <string name="vincent_van_gogh">Vincent van Gogh</string>
+    <string name="los_girasoles_year_1888">(1888)</string>
+    <string name="la_noche_estrellada_year_1889">(1889)</string>
+    <string name="la_noche_estrellada">La Noche Estrellada</string>
+    <string name="el_grito">El Grito</string>
+    <string name="edvard_munch">Edvard Munch</string>
+    <string name="el_grito_year_1893">(1893)</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
 </resources>
