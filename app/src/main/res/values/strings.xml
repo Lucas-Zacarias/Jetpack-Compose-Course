@@ -27,6 +27,7 @@
     <string name="name_and_surname">Lucas Zacarias</string>
     <string name="position">Android Developer</string>
     <string name="business_card">Business Card</string>
+    <string name="app_stretching_title">30 Días de Estiramientos</string>
     <string name="ex1_title">Bombeo con brazos</string>
     <string name="ex1_description">Entrelaza los dedos de la mano enfrente de ti. Inhala al subir los brazos y exhala al bajarlos. El movimiento de bombeo estimula el flujo de energía a partir de la columna vertebral a otras partes del cuerpo.</string>
     <string name="ex2_title">Molinos de viento</string>
@@ -87,4 +88,6 @@
     <string name="ex29_description">Acuéstate con la parte superior del cuerpo acurrucado y los brazos abrazando tus tobillos. Apunta los dedos de los pies hacia fuera. Inhala y extiende simultáneamente los brazos y las piernas. Lleva los brazos paralelos al suelo y las piernas hasta un ángulo de 45 grados. Exhala y abraza las piernas de nuevo.</string>
     <string name="ex30_title">Cuerpo muerto</string>
     <string name="ex30_description">Simplemente acuéstate boca arriba con los pies y las manos separadas. Gira las palmas hacia arriba y coloque tus muslos, rodillas y dedos de los pies ligeramente hacia afuera. Relájate y respira profundamente.</string>
+    <string name="day_number_x">Día %d</string>
+    <string name="stretching_description_title">Descripción</string>
 </resources>
