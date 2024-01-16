@@ -27,4 +27,10 @@
     <string name="name_and_surname">Lucas Zacarias</string>
     <string name="position">Android Developer</string>
     <string name="business_card">Business Card</string>
+    <string name="dessert_clicker_app_name">Dessert Clicker</string>
+    <string name="dessert_sold">Desserts sold</string>
+    <string name="total_revenue">Total Revenue</string>
+    <string name="share">Share</string>
+    <string name="share_text">I\'ve clicked %1$d Desserts for a total of $%2$d #AndroidDessertClicker</string>
+    <string name="sharing_not_available">Sharing Not Available</string>
 </resources>
