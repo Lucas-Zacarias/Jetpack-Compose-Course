@@ -1,6 +1,7 @@
 package com.jetpackcomposecourse.ui.practice.replyapp
 
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,10 +19,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,6 +43,10 @@ fun ReplyDetailsScreen(
     onBackPressed: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    BackHandler {
+        onBackPressed()
+    }
+
     Box(modifier = modifier) {
         LazyColumn(
             modifier = Modifier
@@ -63,40 +72,39 @@ fun ReplyDetailsScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ReplyDetailsScreenTopBar(
     onBackButtonClicked: () -> Unit,
     replyUiState: ReplyUiState,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        IconButton(
-            onClick = onBackButtonClicked,
-            modifier = Modifier
-                .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
-                .background(MaterialTheme.colorScheme.surface, shape = CircleShape),
-        ) {
-            Icon(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = stringResource(id = R.string.navigation_back)
-            )
-        }
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(end = dimensionResource(R.dimen.detail_subject_padding_end))
-        ) {
+    CenterAlignedTopAppBar(
+        title = {
             Text(
                 text = stringResource(replyUiState.currentSelectedEmail.subject),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-        }
-    }
+        },
+        navigationIcon = {
+            IconButton(
+                onClick = onBackButtonClicked,
+                modifier = Modifier
+                    .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
+                    .background(MaterialTheme.colorScheme.surface, shape = CircleShape)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = stringResource(id = R.string.navigation_back)
+                )
+            }
+        },
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.inverseOnSurface
+        ),
+        modifier = modifier
+    )
 }
 
 @Composable
