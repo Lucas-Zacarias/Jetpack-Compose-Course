@@ -80,6 +80,7 @@ fun ReplyHomeScreen(
         PermanentNavigationDrawer(
             drawerContent = {
                 PermanentDrawerSheet(Modifier.width(dimensionResource(id = R.dimen.drawer_width))) {
+                    val permanentNavigationDrawerContentDescription = stringResource(id = R.string.navigation_drawer)
                     NavigationDrawerContent(
                         selectedDestination = replyUiState.currentMailbox,
                         onTabPressed = onTabPressed,
@@ -89,6 +90,7 @@ fun ReplyHomeScreen(
                             .fillMaxHeight()
                             .background(MaterialTheme.colorScheme.inverseOnSurface)
                             .padding(dimensionResource(R.dimen.drawer_padding_content))
+                            .testTag(permanentNavigationDrawerContentDescription)
                     )
                 }
             }
@@ -171,12 +173,14 @@ private fun ReplyAppContent(
                 )
             }
             AnimatedVisibility(visible = navigationType == ReplyNavigationType.BOTTOM_NAVIGATION) {
+                val bottomNavigationContentDescription = stringResource(id = R.string.navigation_bottom)
                 ReplyBottomNavigationBar(
                     currentTab = replyUiState.currentMailbox,
                     onTabPressed = onTabPressed,
                     navigationItemContentList = navigationItemContentList,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .testTag(bottomNavigationContentDescription)
                 )
             }
         }
