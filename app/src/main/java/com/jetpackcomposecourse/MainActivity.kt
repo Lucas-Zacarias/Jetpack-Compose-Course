@@ -30,3 +30,19 @@ private fun JetpackComposeCoursePreview() {
         windowSize = WindowWidthSizeClass.Compact
     )
 }
+
+@Preview(showBackground = true, widthDp = 700)
+@Composable
+fun ReplyAppMediumPreview() {
+    ReplyApp(
+        windowSize = WindowWidthSizeClass.Medium
+    )
+}
+
+@Preview(showBackground = true, widthDp = 1000)
+@Composable
+fun ReplyAppExpandedPreview() {
+    ReplyApp(
+        windowSize = WindowWidthSizeClass.Expanded
+    )
+}

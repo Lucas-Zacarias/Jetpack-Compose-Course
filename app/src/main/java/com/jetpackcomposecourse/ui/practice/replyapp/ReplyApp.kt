@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jetpackcomposecourse.data.Email
 import com.jetpackcomposecourse.data.MailboxType
 import com.jetpackcomposecourse.ui.practice.replyapp.theme.ReplyTheme
+import com.jetpackcomposecourse.ui.practice.replyapp.util.ReplyContentType
 import com.jetpackcomposecourse.ui.practice.replyapp.util.ReplyNavigationType
 
 @Composable
@@ -18,24 +19,32 @@ fun ReplyApp(
     val viewModel: ReplyViewModel = viewModel()
     val replyUiState = viewModel.uiState.collectAsState().value
 
-    val navigationType: ReplyNavigationType = when (windowSize) {
+    val navigationType: ReplyNavigationType
+    val contentType: ReplyContentType
+
+    when (windowSize) {
         WindowWidthSizeClass.Compact -> {
-            ReplyNavigationType.BOTTOM_NAVIGATION
+            navigationType = ReplyNavigationType.BOTTOM_NAVIGATION
+            contentType = ReplyContentType.LIST_ONLY
         }
         WindowWidthSizeClass.Medium -> {
-            ReplyNavigationType.NAVIGATION_RAIL
+            navigationType = ReplyNavigationType.NAVIGATION_RAIL
+            contentType = ReplyContentType.LIST_ONLY
         }
         WindowWidthSizeClass.Expanded -> {
-            ReplyNavigationType.PERMANENT_NAVIGATION_DRAWER
+            navigationType = ReplyNavigationType.PERMANENT_NAVIGATION_DRAWER
+            contentType = ReplyContentType.LIST_AND_DETAIL
         }
         else -> {
-            ReplyNavigationType.BOTTOM_NAVIGATION
+            navigationType = ReplyNavigationType.BOTTOM_NAVIGATION
+            contentType = ReplyContentType.LIST_ONLY
         }
     }
 
     ReplyTheme {
         ReplyHomeScreen(
             navigationType = navigationType,
+            contentType = contentType,
             replyUiState = replyUiState,
             onTabPressed = { mailboxType: MailboxType ->
                 viewModel.updateCurrentMailbox(mailboxType = mailboxType)

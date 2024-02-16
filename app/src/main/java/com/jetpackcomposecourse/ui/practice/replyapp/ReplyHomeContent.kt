@@ -2,7 +2,6 @@ package com.jetpackcomposecourse.ui.practice.replyapp
 
 import android.app.Activity
 import androidx.annotation.DrawableRes
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -60,8 +58,9 @@ fun ReplyListOnlyContent(
                         .padding(vertical = dimensionResource(R.dimen.topbar_padding_vertical))
                 )
             } else {
-                Spacer(modifier = Modifier
-                    .padding(vertical = dimensionResource(R.dimen.topbar_padding_vertical))
+                Spacer(
+                    modifier = Modifier
+                        .padding(vertical = dimensionResource(R.dimen.topbar_padding_vertical))
                 )
             }
         }
@@ -109,7 +108,9 @@ fun ReplyListAndDetailContent(
         val activity = LocalContext.current as Activity
         ReplyDetailsScreen(
             replyUiState = replyUiState,
-            onBackPressed = {},
+            onBackPressed = {
+                activity.finish()
+            },
             modifier = Modifier.weight(1f)
         )
     }
