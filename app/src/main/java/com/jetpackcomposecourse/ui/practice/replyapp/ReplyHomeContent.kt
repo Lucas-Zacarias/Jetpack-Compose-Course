@@ -2,12 +2,15 @@ package com.jetpackcomposecourse.ui.practice.replyapp
 
 import android.app.Activity
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,12 +35,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.jetpackcomposecourse.R
 import com.jetpackcomposecourse.data.Email
 import com.jetpackcomposecourse.data.local.LocalAccountsDataProvider
+import com.jetpackcomposecourse.ui.practice.replyapp.util.ReplyNavigationType
 
 @Composable
 fun ReplyListOnlyContent(
-    replyUiState: ReplyUiState,
+    navigationType: ReplyNavigationType,
     onEmailCardPressed: (Email) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    replyUiState: ReplyUiState
 ) {
     val emails = replyUiState.currentMailboxEmails
 
@@ -48,11 +53,17 @@ fun ReplyListOnlyContent(
         )
     ) {
         item {
-            ReplyHomeTopBar(
-                modifier = Modifier
-                    .fillMaxWidth()
+            if (navigationType != ReplyNavigationType.PERMANENT_NAVIGATION_DRAWER) {
+                ReplyHomeTopBar(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = dimensionResource(R.dimen.topbar_padding_vertical))
+                )
+            } else {
+                Spacer(modifier = Modifier
                     .padding(vertical = dimensionResource(R.dimen.topbar_padding_vertical))
-            )
+                )
+            }
         }
         items(emails, key = { email -> email.id }) { email ->
             ReplyEmailListItem(
