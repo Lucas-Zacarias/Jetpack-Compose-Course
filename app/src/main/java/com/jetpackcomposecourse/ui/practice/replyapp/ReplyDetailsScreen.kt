@@ -31,6 +31,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import com.jetpackcomposecourse.R
@@ -48,7 +49,7 @@ fun ReplyDetailsScreen(
         onBackPressed()
     }
 
-    Box(modifier = modifier) {
+    Box(modifier = modifier.testTag(stringResource(id = R.string.details_screen))) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
