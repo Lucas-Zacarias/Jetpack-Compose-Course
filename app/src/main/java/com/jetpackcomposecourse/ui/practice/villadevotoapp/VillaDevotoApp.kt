@@ -13,12 +13,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -27,15 +27,22 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.jetpackcomposecourse.data.Categories
 import com.jetpackcomposecourse.ui.practice.villadevotoapp.theme.VillaDevotoTheme
+import com.jetpackcomposecourse.ui.practice.villadevotoapp.util.VillaDevotoContentType
 
 @Composable
-fun VillaDevotoApp() {
+fun VillaDevotoApp(windowSize: WindowWidthSizeClass) {
     val viewModel: VillaDevotoViewModel = viewModel()
     val navController: NavHostController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = Screens.valueOf(
         backStackEntry?.destination?.route ?: Screens.CATEGORIES_SCREEN.name
     )
+
+    val contentType = when (windowSize) {
+        WindowWidthSizeClass.Compact -> VillaDevotoContentType.LIST_ONLY
+        WindowWidthSizeClass.Medium, WindowWidthSizeClass.Expanded -> VillaDevotoContentType.LIST_NESTLED
+        else -> VillaDevotoContentType.LIST_ONLY
+    }
 
     VillaDevotoTheme {
         Surface(
@@ -51,7 +58,8 @@ fun VillaDevotoApp() {
                 }
             ) { innerPadding ->
                 val uiState by viewModel.uiState.collectAsState()
-                AppNavigation(viewModel, navController, uiState, innerPadding)
+                AppNavigation(viewModel, navController, uiState, innerPadding, contentType)
+
             }
         }
     }
@@ -62,45 +70,56 @@ private fun AppNavigation(
     viewModel: VillaDevotoViewModel,
     navController: NavHostController,
     uiState: VillaDevotoAppUiState,
-    innerPadding: PaddingValues
+    innerPadding: PaddingValues,
+    contentType: VillaDevotoContentType
 ) {
     NavHost(
         navController = navController,
         startDestination = Screens.CATEGORIES_SCREEN.name
     ) {
-        composable(route = Screens.CATEGORIES_SCREEN.name) {
-            VillaDevotoHomeScreen(
-                categories = Categories.entries.toList(),
-                categoryEvent = {
-                    viewModel.updateCurrentCategory(it)
-                    navController.navigate(Screens.RECOMMENDATIONS_SCREEN.name)
-                },
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            )
-        }
-        composable(route = Screens.RECOMMENDATIONS_SCREEN.name) {
-            VillaDevotoRecommendationsScreen(
-                recommendations = uiState.placesList,
-                currentCategoryIconResourceId = uiState.currentCategoryIconResourceId,
-                recommendationEvent = {
-                    viewModel.updateCurrentPlace(it)
-                    navController.navigate(Screens.RECOMMENDED_PLACE_SCREEN.name)
-                },
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            )
-        }
-        composable(route = Screens.RECOMMENDED_PLACE_SCREEN.name) {
-            VillaDevotoRecommendedPlaceScreen(
-                place = uiState.currentPlace,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(innerPadding)
-            )
-        }
+            composable(route = Screens.CATEGORIES_SCREEN.name) {
+                VillaDevotoHomeScreen(
+                    categories = Categories.entries.toList(),
+                    categoryEvent = {
+                        viewModel.updateCurrentCategory(it)
+                        if(contentType == VillaDevotoContentType.LIST_ONLY) {
+                            navController.navigate(Screens.RECOMMENDATIONS_SCREEN.name)
+                        }
+                    },
+                    contentType = contentType,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    recommendationEvent = {
+                        viewModel.updateCurrentPlace(it)
+                        navController.navigate(Screens.RECOMMENDATIONS_SCREEN.name)
+                    },
+                    uiState = uiState
+                )
+            }
+            composable(route = Screens.RECOMMENDATIONS_SCREEN.name) {
+                VillaDevotoRecommendationsScreen(
+                    uiState = uiState,
+                    contentType = contentType,
+                    recommendationEvent = {
+                        viewModel.updateCurrentPlace(it)
+                        if(contentType == VillaDevotoContentType.LIST_ONLY) {
+                            navController.navigate(Screens.RECOMMENDED_PLACE_SCREEN.name)
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                )
+            }
+            composable(route = Screens.RECOMMENDED_PLACE_SCREEN.name) {
+                VillaDevotoRecommendedPlaceScreen(
+                    place = uiState.currentPlace,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(innerPadding)
+                )
+            }
     }
 }
 
@@ -128,10 +147,4 @@ private fun VillaDevotoTopBar(
             }
         }
     )
-}
-
-@Preview
-@Composable
-private fun VillaDevotoAppPreview() {
-    VillaDevotoApp()
 }

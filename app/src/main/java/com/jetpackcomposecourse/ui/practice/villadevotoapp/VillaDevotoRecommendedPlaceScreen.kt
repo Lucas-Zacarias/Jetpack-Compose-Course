@@ -39,30 +39,76 @@ fun VillaDevotoRecommendedPlaceScreen(
         Column(
             modifier = Modifier
                 .padding(dimensionResource(id = R.dimen.padding_medium))
-                .verticalScroll(
-                    rememberScrollState()
-                )
+                .verticalScroll(rememberScrollState())
         ) {
-            Image(
-                painter = painterResource(id = place.imageResourceId), 
-                contentDescription = stringResource(id = place.titleResourceId),
-                modifier = Modifier.clip(RoundedCornerShape(dimensionResource(R.dimen.card_corner_radius)))
+            RecommendedPlaceImage(
+                imageResourceId = place.imageResourceId,
+                titleResourceId = place.titleResourceId
             )
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_medium)))
-            Text(
-                text = stringResource(id = place.titleResourceId),
-                fontWeight = FontWeight.Bold
+            RecommededPlaceTitle(
+                titleResourceId = place.titleResourceId
             )
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_medium)))
-            Row(horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))) {
-                Icon(imageVector = Icons.Filled.Place, contentDescription = null)
-                Text(
-                    text = stringResource(id = place.addressResourceId),
-                    fontStyle = FontStyle.Italic
-                )
-            }
+            RecommendedPlaceAddress(
+                addressResourceId = place.addressResourceId
+            )
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_medium)))
-            Text(text = stringResource(id = place.descriptionResourceId))
+            RecommendedPlaceDescription(
+                placeDescriptionId = place.descriptionResourceId
+            )
         }
     }
+}
+
+@Composable
+private fun RecommendedPlaceDescription(
+    placeDescriptionId: Int,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = stringResource(id = placeDescriptionId),
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun RecommendedPlaceAddress(
+    addressResourceId: Int,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small)),
+        modifier = modifier
+    ) {
+        Icon(imageVector = Icons.Filled.Place, contentDescription = null)
+        Text(
+            text = stringResource(id = addressResourceId),
+            fontStyle = FontStyle.Italic
+        )
+    }
+}
+
+@Composable
+private fun RecommededPlaceTitle(
+    titleResourceId: Int,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = stringResource(id = titleResourceId),
+        fontWeight = FontWeight.Bold,
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun RecommendedPlaceImage(
+    imageResourceId: Int,
+    titleResourceId: Int,
+    modifier: Modifier = Modifier) {
+    Image(
+        painter = painterResource(id = imageResourceId),
+        contentDescription = stringResource(id = titleResourceId),
+        modifier = modifier.clip(RoundedCornerShape(dimensionResource(R.dimen.card_corner_radius)))
+    )
 }

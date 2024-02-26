@@ -10,12 +10,7 @@ import kotlinx.coroutines.flow.update
 
 class VillaDevotoViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(
-        VillaDevotoAppUiState(
-            placesList = LocalPlacesDataProvider.getPlacesData(),
-            currentPlace = LocalPlacesDataProvider.getPlacesData().getOrElse(0) {
-                LocalPlacesDataProvider.defaultPlace
-            }
-        )
+        VillaDevotoAppUiState()
     )
     val uiState: StateFlow<VillaDevotoAppUiState> = _uiState
 
@@ -30,7 +25,7 @@ class VillaDevotoViewModel : ViewModel() {
             it.copy(
                 currentCategory = categorySelected,
                 placesList = LocalPlacesDataProvider.getPlacesByCategory(categorySelected),
-                currentCategoryIconResourceId = categorySelected.icon
+                currentPlace = LocalPlacesDataProvider.getPlacesByCategory(categorySelected).first()
             )
         }
     }

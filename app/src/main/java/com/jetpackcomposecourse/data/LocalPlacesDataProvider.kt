@@ -1,6 +1,5 @@
 package com.jetpackcomposecourse.data
 
-import androidx.compose.ui.res.stringResource
 import com.jetpackcomposecourse.R
 import com.jetpackcomposecourse.model.Place
 
