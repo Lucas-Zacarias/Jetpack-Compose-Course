@@ -1,4 +1,4 @@
-package com.jetpackcomposecourse.ui.practice.kotlin
+package com.kotlin.ui.kotlin
 
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
