@@ -1,4 +1,4 @@
-package com.affirmations
+package com.courses
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,19 +9,18 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.affirmations.ui.AffirmationApp
-import com.affirmations.ui.theme.AffirmationsTheme
+import com.courses.ui.theme.CoursesTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AffirmationsTheme {
+            CoursesTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AffirmationApp()
+
                 }
             }
         }
@@ -30,8 +29,8 @@ class MainActivity : ComponentActivity() {
 
 @Preview(showBackground = true)
 @Composable
-fun AffirmationsPreview() {
-    AffirmationsTheme {
-        AffirmationApp()
+fun CoursesPreview() {
+    CoursesTheme {
+
     }
 }
