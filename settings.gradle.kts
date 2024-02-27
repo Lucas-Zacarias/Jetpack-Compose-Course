@@ -17,3 +17,4 @@ rootProject.name = "Jetpack Compose Course"
 include(":app")
 include(":kotlin")
 include(":composebasics")
+include(":lemon")
