@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Jetpack Compose Course"
 include(":app")
- 
+include(":kotlin")
