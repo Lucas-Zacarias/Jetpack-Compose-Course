@@ -1,4 +1,4 @@
-package com.jetpackcomposecourse.ui.practice
+package com.composebasics.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,12 +18,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.jetpackcomposecourse.R
-import com.jetpackcomposecourse.ui.theme.JetpackComposeCourseTheme
-import com.jetpackcomposecourse.ui.theme.Quadrant1
-import com.jetpackcomposecourse.ui.theme.Quadrant2
-import com.jetpackcomposecourse.ui.theme.Quadrant3
-import com.jetpackcomposecourse.ui.theme.Quadrant4
+import com.composebasics.R
+import com.composebasics.ui.theme.ComposeBasicsTheme
+import com.composebasics.ui.theme.Quadrant1
+import com.composebasics.ui.theme.Quadrant2
+import com.composebasics.ui.theme.Quadrant3
+import com.composebasics.ui.theme.Quadrant4
 
 @Composable
 fun QuadrantsScreen() {
@@ -99,7 +99,7 @@ private fun Quadrant(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun QuadrantsPreview() {
-    JetpackComposeCourseTheme {
+    ComposeBasicsTheme {
         QuadrantsScreen()
     }
 }

@@ -1,4 +1,4 @@
-package com.jetpackcomposecourse.ui.practice
+package com.composebasics.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -14,8 +14,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.jetpackcomposecourse.R
-import com.jetpackcomposecourse.ui.theme.JetpackComposeCourseTheme
+import com.composebasics.R
+import com.composebasics.ui.theme.ComposeBasicsTheme
 
 @Composable
 fun ArticleScreen(
@@ -55,7 +55,7 @@ fun ArticleScreen(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ArticlePreview() {
-    JetpackComposeCourseTheme {
+    ComposeBasicsTheme {
         ArticleScreen()
     }
 }

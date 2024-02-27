@@ -1,4 +1,4 @@
-package com.jetpackcomposecourse.ui.practice
+package com.composebasics.ui
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -23,8 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.jetpackcomposecourse.R
-import com.jetpackcomposecourse.ui.theme.BackgroundGray
+import com.composebasics.R
+import com.composebasics.ui.theme.BackgroundGray
 
 @Composable
 fun ComposeBasics() {

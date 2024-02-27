@@ -1,4 +1,4 @@
-package com.jetpackcomposecourse.ui.practice
+package com.composebasics.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -31,10 +31,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.jetpackcomposecourse.R
-import com.jetpackcomposecourse.ui.theme.BackgroundBusinessCard
-import com.jetpackcomposecourse.ui.theme.JetpackComposeCourseTheme
-import com.jetpackcomposecourse.ui.theme.TextBusinessCard
+import com.composebasics.R
+import com.composebasics.ui.theme.BackgroundBusinessCard
+import com.composebasics.ui.theme.ComposeBasicsTheme
+import com.composebasics.ui.theme.TextBusinessCard
 
 @Composable
 fun BusinessCardScreen() {
@@ -131,7 +131,7 @@ private fun PersonalInfo(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun BusinessCardPreview() {
-    JetpackComposeCourseTheme {
+    ComposeBasicsTheme {
         BusinessCardScreen()
     }
 }

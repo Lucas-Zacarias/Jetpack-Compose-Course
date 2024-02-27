@@ -1,4 +1,4 @@
-package com.jetpackcomposecourse.ui.practice
+package com.composebasics.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -17,8 +17,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.jetpackcomposecourse.R
-import com.jetpackcomposecourse.ui.theme.JetpackComposeCourseTheme
+import com.composebasics.R
+import com.composebasics.ui.theme.ComposeBasicsTheme
 
 @Composable
 fun HappyBirthdayScreen(
@@ -71,7 +71,7 @@ private fun HappyBirthdayText(message: String, from: String, modifier: Modifier)
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HappyBirthdayPreview() {
-    JetpackComposeCourseTheme {
+    ComposeBasicsTheme {
         HappyBirthdayScreen(
             message = stringResource(id = R.string.happy_birthday_text),
             from = stringResource(id = R.string.signature_text)
