@@ -9,6 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.woof.ui.WoofApp
 import com.woof.ui.theme.WoofTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
+                    WoofApp()
                 }
             }
         }
@@ -31,6 +32,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun WoofPreview() {
     WoofTheme {
-
+        WoofApp()
     }
 }
