@@ -9,6 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.cupcake.ui.CupcakeApp
 import com.cupcake.ui.theme.CupcakeTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
+                    CupcakeApp()
                 }
             }
         }
@@ -31,6 +32,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun CupcakePreview() {
     CupcakeTheme {
-
+        CupcakeApp()
     }
 }
