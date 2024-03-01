@@ -1,4 +1,4 @@
-package com.jetpackcomposecourse.ui.practice.villadevotoapp
+package com.villadevoto.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -21,17 +21,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.jetpackcomposecourse.R
+import com.villadevoto.R
 import com.villadevoto.data.Categories
 import com.villadevoto.model.Place
-import com.jetpackcomposecourse.ui.practice.villadevotoapp.util.VillaDevotoContentType
+import com.villadevoto.ui.util.VillaDevotoContentType
 
 @Composable
 fun VillaDevotoHomeScreen(
-    categories: List<com.villadevoto.data.Categories>,
-    categoryEvent: (com.villadevoto.data.Categories) -> Unit,
+    categories: List<Categories>,
+    categoryEvent: (Categories) -> Unit,
     contentType: VillaDevotoContentType,
-    recommendationEvent: (com.villadevoto.model.Place) -> Unit,
+    recommendationEvent: (Place) -> Unit,
     uiState: VillaDevotoAppUiState,
     modifier: Modifier = Modifier
 ) {
@@ -56,8 +56,8 @@ fun VillaDevotoHomeScreen(
 
 @Composable
 fun CategoriesList(
-    categories: List<com.villadevoto.data.Categories>,
-    categoryEvent: (com.villadevoto.data.Categories) -> Unit,
+    categories: List<Categories>,
+    categoryEvent: (Categories) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -72,8 +72,8 @@ fun CategoriesList(
 
 @Composable
 fun CategoryItem(
-    categoryEvent: (com.villadevoto.data.Categories) -> Unit,
-    category: com.villadevoto.data.Categories,
+    categoryEvent: (Categories) -> Unit,
+    category: Categories,
     selected: Boolean,
     modifier: Modifier = Modifier
 ) {

@@ -1,3 +1,139 @@
 <resources>
     <string name="app_name">Villa Devoto</string>
+    <string name="coffee_shops">Coffee shops</string>
+    <string name="restaurants">Restaurants</string>
+    <string name="kid_friendly_places">Kid-friendly</string>
+    <string name="parks">Parks</string>
+    <string name="shopping_centers">Shopping centers</string>
+    <string name="betular_patisserie">Betular Pâtisserie</string>
+    <string name="betular_patisserie_address">Mercedes 3900, C1419 Buenos Aires</string>
+    <string name="betular_patisserie_description">
+        Opciones del local:
+        \n- Desayunos
+        \n- Almuerzo
+        \n- Postres
+        \n- Espacio con asientos
+    </string>
+    <string name="la_panera_rosa">La Panera Rosa</string>
+    <string name="la_panera_rosa_address">Bahía Blanca 4171, C1419 Villa Devoto, Buenos Aires</string>
+    <string name="la_panera_rosa_description">
+        Opciones del local:
+        \n- Desayunos
+        \n- Almuerzo
+        \n- Postres
+        \n- Espacio con asientos
+    </string>
+    <string name="valentino_caffe">Valentino Caffé</string>
+    <string name="valentino_caffe_address">Fernández de Enciso 3787, Buenos Aires</string>
+    <string name="valentino_caffe_description">
+        Opciones del local:
+        \n- Para llevar
+        \n- Consumo en el lugar
+    </string>
+    <string name="korto_cafe">Korto Café</string>
+    <string name="korto_cafe_address">Pareja 4089, C1419GVI Buenos Aires</string>
+    <string name="korto_cafe_description">
+        Opciones del local:
+        \n- Desayunos
+        \n- Almuerzo
+        \n- Postres
+        \n- Espacio con asientos
+    </string>
+    <string name="burger_54">Burger 54</string>
+    <string name="burger_54_address">Nueva York 4074, C1419HDR Buenos Aires</string>
+    <string name="burger_54_description">
+        Opciones del local:
+        \n- Alcohol
+        \n- Bocadillos
+        \n- Café
+        \n- Cerveza
+        \n- Comidas durante la madrugada
+        \n- Platos saludables
+        \n- Platos vegetarianos
+    </string>
+    <string name="mecha_fuego_porteño">Mecha Fuego Porteño</string>
+    <string name="mecha_fuego_porteño_address">Mercedes 3939, 1419 Buenos Aires</string>
+    <string name="mecha_fuego_porteño_description">
+        Opciones del local:
+        \n- Alcohol
+        \n- Aperitivos
+        \n- Bebidas fuertes
+        \n- Café
+        \n- Cerveza
+        \n- Cócteles
+        \n- Comidas durante la madrugada
+        \n- Vino
+    </string>
+    <string name="sunny_pizza_y_friends">Sunny - Pizza &amp; Friends</string>
+    <string name="sunny_pizza_y_friends_address">Nueva York 4120, C1419 Buenos Aires</string>
+    <string name="sunny_pizza_y_friends_description">
+        Opciones del local:
+        \n- Alcohol
+        \n- Aperitivos
+        \n- Bebidas en hora feliz
+        \n- Bebidas fuertes
+        \n- Café
+        \n- Cerveza
+        \n- Cócteles
+        \n- Comidas durante la madrugada
+        \n- Platos vegetarianos
+        \n- Vino
+    </string>
+    <string name="polo_gastronomico_chivilcoy">Polo Gastronómico Chivilcoy</string>
+    <string name="polo_gastronomico_chivilcoy_address">Chivilcoy entre Nueva York, Av. Francisco Beiró y, C1417, Buenos Aires</string>
+    <string name="polo_gastronomico_chivilcoy_description">
+        Opciones del local:
+        \n- Almuerzo
+        \n- Cena
+        \n- Entrega a domicilio
+        \n- Consumo en el lugar
+        \n- Para llevar
+    </string>
+    <string name="playland_park">Playland Park</string>
+    <string name="playland_park_address">José Pedro Varela 4866 Planta alta, C1417 Buenos Aires</string>
+    <string name="playland_park_description">
+        Opciones del lugar:
+        \n- Sanitario
+        \n- Ideal para ir con niños
+    </string>
+    <string name="plaza_arenales">Plaza Arenales</string>
+    <string name="plaza_arenales_address">Mercedes 4058, C1419 Buenos Aires</string>
+    <string name="plaza_arenales_description">
+        Plaza verde rodeada de restaurantes que tiene un carrusel, mercados de alimentos y una pista de ciclismo.
+    </string>
+    <string name="cinema_devoto">Cinema Devoto</string>
+    <string name="cinema_devoto_address">Quevedo 3365, C1417 Buenos Aires</string>
+    <string name="cinema_devoto_description">
+        Opciones del lugar:
+        \n- Comida
+        \n- Juegos de arcade
+    </string>
+    <string name="polideportivo_parque_onega">Polideportivo Parque Onega</string>
+    <string name="polideportivo_parque_onega_address">Gabriela Mistral 3819 11, C1419 Buenos Aires</string>
+    <string name="polideportivo_parque_onega_description">
+        Opciones del lugar:
+        \n- Entrada accesible para personas en silla de ruedas
+        \n- Estacionamiento accesible para personas en silla de ruedas
+    </string>
+    <string name="shopping_devoto">Shopping Devoto</string>
+    <string name="shopping_devoto_address">Quevedo 3365, C1417BVC Buenos Aires</string>
+    <string name="shopping_devoto_description">
+        Opciones del lugar:
+        \n- Comida
+        \n- Juegos de arcade
+    </string>
+    <string name="gran_galeria_devoto">Gran Galería Devoto</string>
+    <string name="gran_galeria_devoto_address">Asunción 4183, B1419 Buenos Aires</string>
+    <string name="gran_galeria_devoto_description">
+        Opciones del lugar:
+        \n- Compras en tienda
+    </string>
+    <string name="paseo_de_la_plaza">Paseo de La Plaza</string>
+    <string name="paseo_de_la_plaza_address">Av. S. Martín 5918, Gran Buenos Aires, Buenos Aires</string>
+    <string name="paseo_de_la_plaza_description">
+        Opciones del lugar:
+        \n- Compras en tienda
+    </string>
+    <string name="categories">Recommendations</string>
+    <string name="recommended_place">Recommended Place</string>
 </resources>

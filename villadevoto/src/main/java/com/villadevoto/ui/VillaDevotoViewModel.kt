@@ -1,4 +1,4 @@
-package com.jetpackcomposecourse.ui.practice.villadevotoapp
+package com.villadevoto.ui
 
 import androidx.lifecycle.ViewModel
 import com.villadevoto.data.Categories
@@ -14,18 +14,18 @@ class VillaDevotoViewModel : ViewModel() {
     )
     val uiState: StateFlow<VillaDevotoAppUiState> = _uiState
 
-    fun updateCurrentPlace(selectedPlace: com.villadevoto.model.Place) {
+    fun updateCurrentPlace(selectedPlace: Place) {
         _uiState.update {
             it.copy(currentPlace = selectedPlace)
         }
     }
 
-    fun updateCurrentCategory(categorySelected: com.villadevoto.data.Categories) {
+    fun updateCurrentCategory(categorySelected: Categories) {
         _uiState.update {
             it.copy(
                 currentCategory = categorySelected,
-                placesList = com.villadevoto.data.LocalPlacesDataProvider.getPlacesByCategory(categorySelected),
-                currentPlace = com.villadevoto.data.LocalPlacesDataProvider.getPlacesByCategory(categorySelected).first()
+                placesList = LocalPlacesDataProvider.getPlacesByCategory(categorySelected),
+                currentPlace = LocalPlacesDataProvider.getPlacesByCategory(categorySelected).first()
             )
         }
     }

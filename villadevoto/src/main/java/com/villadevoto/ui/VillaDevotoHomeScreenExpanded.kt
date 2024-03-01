@@ -1,4 +1,4 @@
-package com.jetpackcomposecourse.ui.practice.villadevotoapp
+package com.villadevoto.ui
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -7,19 +7,19 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import com.jetpackcomposecourse.R
+import com.villadevoto.R
 import com.villadevoto.data.Categories
 import com.villadevoto.model.Place
 
 @Composable
 fun VillaDevotoHomeScreenExpanded(
-    categories: List<com.villadevoto.data.Categories>,
-    categoryEvent: (com.villadevoto.data.Categories) -> Unit,
-    recommendations: List<com.villadevoto.model.Place>,
+    categories: List<Categories>,
+    categoryEvent: (Categories) -> Unit,
+    recommendations: List<Place>,
     currentCategoryIconResourceId: Int,
-    recommendationEvent: (com.villadevoto.model.Place) -> Unit,
+    recommendationEvent: (Place) -> Unit,
     modifier: Modifier = Modifier,
-    categorySelected: com.villadevoto.data.Categories
+    categorySelected: Categories
 ) {
     Row(
         modifier = modifier
@@ -41,10 +41,10 @@ fun VillaDevotoHomeScreenExpanded(
 
 @Composable
 fun CategoriesListWithSelectedCategory(
-    categories: List<com.villadevoto.data.Categories>,
-    categoryEvent: (com.villadevoto.data.Categories) -> Unit,
+    categories: List<Categories>,
+    categoryEvent: (Categories) -> Unit,
     modifier: Modifier,
-    categorySelected: com.villadevoto.data.Categories
+    categorySelected: Categories
 ) {
     LazyColumn(
         modifier = modifier

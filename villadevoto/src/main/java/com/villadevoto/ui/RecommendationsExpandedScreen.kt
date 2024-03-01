@@ -1,4 +1,4 @@
-package com.jetpackcomposecourse.ui.practice.villadevotoapp
+package com.villadevoto.ui
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -7,13 +7,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import com.jetpackcomposecourse.R
+import com.villadevoto.R
 import com.villadevoto.model.Place
 
 @Composable
 fun RecommendationsExpandedScreen(
     uiState: VillaDevotoAppUiState,
-    recommendationEvent: (com.villadevoto.model.Place) -> Unit,
+    recommendationEvent: (Place) -> Unit,
     modifier: Modifier
 ) {
     Row(
@@ -37,10 +37,10 @@ fun RecommendationsExpandedScreen(
 
 @Composable
 fun RecommendationsListWithRecommendationSelected(
-    recommendations: List<com.villadevoto.model.Place>,
-    currentPlace: com.villadevoto.model.Place,
+    recommendations: List<Place>,
+    currentPlace: Place,
     currentCategoryIconResourceId: Int,
-    recommendationEvent: (com.villadevoto.model.Place) -> Unit,
+    recommendationEvent: (Place) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(

@@ -1,8 +1,8 @@
-package com.jetpackcomposecourse.data
+package com.villadevoto.data
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.jetpackcomposecourse.R
+import com.villadevoto.R
 
 enum class Categories(
     @StringRes val title: Int,

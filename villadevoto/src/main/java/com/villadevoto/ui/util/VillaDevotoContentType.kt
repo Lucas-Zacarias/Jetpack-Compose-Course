@@ -1,4 +1,4 @@
-package com.jetpackcomposecourse.ui.practice.villadevotoapp.util
+package com.villadevoto.ui.util
 
 enum class VillaDevotoContentType {
     LIST_ONLY,

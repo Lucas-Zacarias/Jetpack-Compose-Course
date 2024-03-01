@@ -1,4 +1,4 @@
-package com.jetpackcomposecourse.ui.practice.villadevotoapp
+package com.villadevoto.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -21,16 +21,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.jetpackcomposecourse.R
+import com.villadevoto.R
 import com.villadevoto.model.Place
-import com.jetpackcomposecourse.ui.practice.villadevotoapp.util.VillaDevotoContentType
+import com.villadevoto.ui.util.VillaDevotoContentType
 
 @Composable
 fun VillaDevotoRecommendationsScreen(
     uiState: VillaDevotoAppUiState,
     contentType: VillaDevotoContentType,
     modifier: Modifier = Modifier,
-    recommendationEvent: (com.villadevoto.model.Place) -> Unit
+    recommendationEvent: (Place) -> Unit
 ) {
     if (contentType == VillaDevotoContentType.LIST_ONLY) {
         RecommendationsList(
@@ -50,9 +50,9 @@ fun VillaDevotoRecommendationsScreen(
 
 @Composable
 fun RecommendationsList(
-    recommendations: List<com.villadevoto.model.Place>,
+    recommendations: List<Place>,
     currentCategoryIconResourceId: Int,
-    recommendationEvent: (com.villadevoto.model.Place) -> Unit,
+    recommendationEvent: (Place) -> Unit,
     modifier: Modifier
 ) {
     LazyColumn(
@@ -72,8 +72,8 @@ fun RecommendationsList(
 
 @Composable
 fun RecommendationItem(
-    recommendationEvent: (com.villadevoto.model.Place) -> Unit,
-    place: com.villadevoto.model.Place,
+    recommendationEvent: (Place) -> Unit,
+    place: Place,
     currentCategoryIconResourceId: Int,
     selected: Boolean,
     modifier: Modifier = Modifier

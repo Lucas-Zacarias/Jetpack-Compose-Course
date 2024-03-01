@@ -1,4 +1,4 @@
-package com.jetpackcomposecourse.ui.practice.villadevotoapp
+package com.villadevoto.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -23,12 +23,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import com.jetpackcomposecourse.R
+import com.villadevoto.R
 import com.villadevoto.model.Place
 
 @Composable
 fun VillaDevotoRecommendedPlaceScreen(
-    place: com.villadevoto.model.Place,
+    place: Place,
     modifier: Modifier = Modifier
 ) {
     Card(

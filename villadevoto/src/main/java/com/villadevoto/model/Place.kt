@@ -1,8 +1,8 @@
-package com.jetpackcomposecourse.model
+package com.villadevoto.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.jetpackcomposecourse.data.Categories
+import com.villadevoto.data.Categories
 
 data class Place(
     val id: Int,

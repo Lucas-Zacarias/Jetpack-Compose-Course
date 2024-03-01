@@ -1,7 +1,7 @@
-package com.jetpackcomposecourse.data
+package com.villadevoto.data
 
-import com.jetpackcomposecourse.R
-import com.jetpackcomposecourse.model.Place
+import com.villadevoto.R
+import com.villadevoto.model.Place
 
 object LocalPlacesDataProvider {
     val defaultPlace = getPlacesData()[0]
