@@ -10,6 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.amphibians.ui.AmphibiansApp
 import com.amphibians.ui.theme.AmphibiansTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +23,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
+                    AmphibiansApp()
                 }
             }
         }
@@ -33,6 +34,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AmphibiansPreview() {
     AmphibiansTheme {
-
+        AmphibiansApp()
     }
 }
