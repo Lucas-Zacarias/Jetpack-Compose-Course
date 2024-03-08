@@ -6,14 +6,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.amphibians.R
+import com.amphibians.ui.util.ContentType
 
 @Composable
-fun AmphibiansApp() {
+fun AmphibiansApp(windowSize: WindowWidthSizeClass) {
     Scaffold (
         topBar = {
             AmphibiansTopBar()
@@ -21,8 +23,14 @@ fun AmphibiansApp() {
     )
     {
         val viewModel: AmphibiansViewModel = viewModel(factory = AmphibiansViewModel.Factory)
+        val contentType = when(windowSize) {
+            WindowWidthSizeClass.Compact -> ContentType.LIST
+            WindowWidthSizeClass.Medium, WindowWidthSizeClass.Expanded -> ContentType.GRID
+            else -> ContentType.LIST
+        }
         AmphibiansHome(
             uiState = viewModel.uiState,
+            contentType = contentType,
             retryEvent = viewModel::getAmphibians,
             contentPadding = it,
             modifier = Modifier.fillMaxSize()

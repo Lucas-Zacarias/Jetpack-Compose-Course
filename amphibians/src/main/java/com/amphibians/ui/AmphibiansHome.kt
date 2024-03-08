@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -32,24 +35,33 @@ import coil.request.ImageRequest
 import com.amphibians.R
 import com.amphibians.model.Amphibian
 import com.amphibians.ui.theme.AmphibiansTheme
+import com.amphibians.ui.util.ContentType
 
 @Composable
 fun AmphibiansHome(
     uiState: AmphibiansUiState,
+    contentType: ContentType,
     retryEvent: () -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     when (uiState) {
         is AmphibiansUiState.Loading -> LoadingScreen(modifier.fillMaxSize())
-        is AmphibiansUiState.Success ->
+        is AmphibiansUiState.Success -> if(contentType == ContentType.LIST) {
             AmphibiansList(
                 amphibians = uiState.amphibians,
                 modifier = modifier
                     .padding(horizontal = dimensionResource(id = R.dimen.padding_medium)),
                 contentPadding = contentPadding
             )
-
+        } else {
+            AmphibiansGrid(
+                amphibians = uiState.amphibians,
+                modifier = modifier
+                    .padding(horizontal = dimensionResource(id = R.dimen.padding_medium)),
+                contentPadding = contentPadding
+            )
+        }
         is AmphibiansUiState.Error ->
             ErrorScreen(
                 retryEvent = retryEvent,
@@ -82,6 +94,29 @@ private fun AmphibiansList(
         modifier = modifier,
         contentPadding = contentPadding
     ) {
+        items(
+            items = amphibians,
+            key = { amphibian -> amphibian.name }
+        ) { amphibian ->
+            AmphibianItem(
+                amphibian = amphibian
+            )
+        }
+    }
+}
+
+@Composable
+private fun AmphibiansGrid(
+    amphibians: List<Amphibian>,
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp)
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium)),
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium)),
+        modifier = modifier,
+        contentPadding = contentPadding) {
         items(
             items = amphibians,
             key = { amphibian -> amphibian.name }
