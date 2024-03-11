@@ -1,4 +1,4 @@
-package com.bookshelf
+package com.bookshelf.model
 
 import kotlinx.serialization.Serializable
 

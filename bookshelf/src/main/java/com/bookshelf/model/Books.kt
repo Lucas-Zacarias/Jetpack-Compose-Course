@@ -1,4 +1,4 @@
-package com.bookshelf
+package com.bookshelf.model
 
 import com.bookshelf.data.util.toHttps
 import kotlinx.serialization.Serializable

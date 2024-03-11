@@ -1,9 +1,9 @@
 package com.bookshelf.fakes
 
-import com.bookshelf.Book
-import com.bookshelf.Books
-import com.bookshelf.ImageLink
-import com.bookshelf.VolumeInfo
+import com.bookshelf.model.Book
+import com.bookshelf.model.Books
+import com.bookshelf.model.ImageLink
+import com.bookshelf.model.VolumeInfo
 
 object FakeDataSource {
     private val book1 = Book(

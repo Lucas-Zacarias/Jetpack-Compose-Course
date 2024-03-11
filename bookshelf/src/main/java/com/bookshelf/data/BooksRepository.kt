@@ -1,6 +1,6 @@
 package com.bookshelf.data
 
-import com.bookshelf.Books
+import com.bookshelf.model.Books
 import com.bookshelf.network.BooksApiService
 
 interface BooksRepository {
