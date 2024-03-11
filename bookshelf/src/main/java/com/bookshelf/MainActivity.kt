@@ -1,4 +1,4 @@
-package com.example.bookshelf
+package com.bookshelf
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,8 +10,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.bookshelf.ui.BookshelfApp
-import com.example.bookshelf.ui.theme.BookshelfTheme
+import com.bookshelf.ui.BookshelfApp
+import com.bookshelf.ui.theme.BookshelfTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

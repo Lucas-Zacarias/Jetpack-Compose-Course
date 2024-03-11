@@ -1,4 +1,4 @@
-package com.example.bookshelf.ui
+package com.bookshelf.ui
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.bookshelf.BooksApplication
-import com.example.bookshelf.data.BooksRepository
+import com.bookshelf.BooksApplication
+import com.bookshelf.data.BooksRepository
 import kotlinx.coroutines.launch
 import java.io.IOException
 

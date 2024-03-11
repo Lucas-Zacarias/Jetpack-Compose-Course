@@ -1,6 +1,6 @@
-package com.example.bookshelf.network
+package com.bookshelf.network
 
-import com.example.bookshelf.model.Books
+import com.bookshelf.Books
 import retrofit2.http.GET
 
 interface BooksApiService {

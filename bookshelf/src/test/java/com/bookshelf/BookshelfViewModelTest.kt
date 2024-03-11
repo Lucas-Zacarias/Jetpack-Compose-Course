@@ -1,9 +1,9 @@
-package com.example.bookshelf
+package com.bookshelf
 
-import com.example.bookshelf.fakes.FakeDataSource
-import com.example.bookshelf.fakes.FakeNetworkBookshelfRepository
-import com.example.bookshelf.ui.BookshelfUiState
-import com.example.bookshelf.ui.BookshelfViewModel
+import com.bookshelf.fakes.FakeDataSource
+import com.bookshelf.fakes.FakeNetworkBookshelfRepository
+import com.bookshelf.ui.BookshelfUiState
+import com.bookshelf.ui.BookshelfViewModel
 import com.marsphotos.rules.TestDispatcherRule
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.test.runTest

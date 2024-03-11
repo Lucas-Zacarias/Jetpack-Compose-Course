@@ -1,7 +1,7 @@
-package com.example.bookshelf.fakes
+package com.bookshelf.fakes
 
-import com.example.bookshelf.data.BooksRepository
-import com.example.bookshelf.model.Books
+import com.bookshelf.data.BooksRepository
+import com.bookshelf.Books
 
 class FakeNetworkBookshelfRepository : BooksRepository {
     override suspend fun getBooks(): Books {

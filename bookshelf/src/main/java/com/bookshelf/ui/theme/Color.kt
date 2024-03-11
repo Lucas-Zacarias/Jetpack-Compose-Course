@@ -1,4 +1,4 @@
-package com.example.bookshelf.ui.theme
+package com.bookshelf.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

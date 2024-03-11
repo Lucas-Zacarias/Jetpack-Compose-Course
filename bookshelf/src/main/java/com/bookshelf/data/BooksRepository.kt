@@ -1,7 +1,7 @@
-package com.example.bookshelf.data
+package com.bookshelf.data
 
-import com.example.bookshelf.model.Books
-import com.example.bookshelf.network.BooksApiService
+import com.bookshelf.Books
+import com.bookshelf.network.BooksApiService
 
 interface BooksRepository {
     suspend fun getBooks(): Books

@@ -1,8 +1,8 @@
-package com.example.bookshelf
+package com.bookshelf
 
-import com.example.bookshelf.data.NetworkBooksRepository
-import com.example.bookshelf.fakes.FakeBookshelfApiService
-import com.example.bookshelf.fakes.FakeDataSource
+import com.bookshelf.data.NetworkBooksRepository
+import com.bookshelf.fakes.FakeBookshelfApiService
+import com.bookshelf.fakes.FakeDataSource
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.test.runTest
 import org.junit.Test

@@ -1,4 +1,4 @@
-package com.example.bookshelf.ui
+package com.bookshelf.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.bookshelf.R
+import com.bookshelf.R
 
 @Composable
 fun BookshelfApp() {

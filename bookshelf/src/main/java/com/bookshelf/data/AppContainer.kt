@@ -1,6 +1,6 @@
-package com.example.bookshelf.data
+package com.bookshelf.data
 
-import com.example.bookshelf.network.BooksApiService
+import com.bookshelf.network.BooksApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType

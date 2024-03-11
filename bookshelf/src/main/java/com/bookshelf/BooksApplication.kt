@@ -1,8 +1,8 @@
-package com.example.bookshelf
+package com.bookshelf
 
 import android.app.Application
-import com.example.bookshelf.data.AppContainer
-import com.example.bookshelf.data.DefaultAppContainer
+import com.bookshelf.data.AppContainer
+import com.bookshelf.data.DefaultAppContainer
 
 class BooksApplication : Application() {
     lateinit var container: AppContainer

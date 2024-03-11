@@ -1,6 +1,6 @@
-package com.example.bookshelf.model
+package com.bookshelf
 
-import com.example.bookshelf.data.util.toHttps
+import com.bookshelf.data.util.toHttps
 import kotlinx.serialization.Serializable
 
 @Serializable

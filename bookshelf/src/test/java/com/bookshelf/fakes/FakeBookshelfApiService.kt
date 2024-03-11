@@ -1,7 +1,7 @@
-package com.example.bookshelf.fakes
+package com.bookshelf.fakes
 
-import com.example.bookshelf.model.Books
-import com.example.bookshelf.network.BooksApiService
+import com.bookshelf.Books
+import com.bookshelf.network.BooksApiService
 
 class FakeBookshelfApiService : BooksApiService {
     override suspend fun getBooks(): Books {
