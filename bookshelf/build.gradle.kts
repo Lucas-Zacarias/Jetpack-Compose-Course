@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.bookshelf"
+    namespace = "com.bookshelf"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.bookshelf"
+        applicationId = "com.bookshelf"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -81,6 +81,7 @@ dependencies {
     implementation("androidx.compose.material3:material3-window-size-class")
 
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
