@@ -10,6 +10,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.bookshelf.R
 
 @Composable
@@ -19,7 +20,10 @@ fun BookshelfApp() {
             BookshelfTopBar()
         }
     ) {
+        val viewModel: BookshelfViewModel = viewModel(factory = BookshelfViewModel.Factory)
         BookshelfHome(
+            bookshelfUiState = viewModel.uiState,
+            retryEvent = viewModel::getBooks,
             modifier = Modifier.fillMaxSize(),
             paddingValues = it
         )
