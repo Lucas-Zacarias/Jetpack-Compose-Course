@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -154,6 +155,7 @@ fun TitleNotFoundScreen(
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_retry),
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface),
             contentDescription = stringResource(R.string.connection_error),
             modifier = Modifier.size(dimensionResource(id = R.dimen.image_size_medium))
         )
