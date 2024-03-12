@@ -11,12 +11,16 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.bookshelf.BooksApplication
 import com.bookshelf.data.BooksRepository
 import kotlinx.coroutines.launch
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.MissingFieldException
 import java.io.IOException
 
 sealed interface BookshelfUiState {
     data class Success(val booksUrl: List<String>) : BookshelfUiState
     data object Loading : BookshelfUiState
     data object Error: BookshelfUiState
+
+    data object TitleNotFound: BookshelfUiState
 }
 
 class BookshelfViewModel(
@@ -36,6 +40,25 @@ class BookshelfViewModel(
                 BookshelfUiState.Success(booksRepository.getBooks().booksToHttpsList())
             } catch (e: IOException) {
                 BookshelfUiState.Error
+            }
+        }
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    fun getBooksByName(name: String) {
+        viewModelScope.launch {
+            uiState = try {
+                BookshelfUiState.Success(booksRepository.getBooksByName(name)?.booksToHttpsList() ?: emptyList())
+            } catch (e: MissingFieldException) {
+                BookshelfUiState.TitleNotFound
+            }
+        }
+    }
+
+    fun resetUiStateFromStateTitleNotFound() {
+        viewModelScope.launch {
+            if(uiState is BookshelfUiState.TitleNotFound) {
+                getBooks()
             }
         }
     }

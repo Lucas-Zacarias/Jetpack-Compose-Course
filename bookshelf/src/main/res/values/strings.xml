@@ -3,4 +3,6 @@
     <string name="retry">Retry</string>
     <string name="loading_image">Loading image</string>
     <string name="connection_error">Connection error</string>
+    <string name="title_not_found_try_again_with_other">Title not found, try again with other</string>
+    <string name="search_book">Search book…</string>
 </resources>

@@ -80,6 +80,9 @@ dependencies {
     // Window Size
     implementation("androidx.compose.material3:material3-window-size-class")
 
+    // Material Icons
+    implementation ("androidx.compose.material:material-icons-extended:1.6.3")
+
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
 

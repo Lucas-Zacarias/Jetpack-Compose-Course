@@ -4,7 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -25,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.bookshelf.R
+import kotlin.reflect.KFunction0
 
 @Composable
 fun BookshelfHome(
@@ -39,13 +42,18 @@ fun BookshelfHome(
             books = bookshelfUiState.booksUrl,
             modifier = modifier
                 .fillMaxSize()
-                .padding(dimensionResource(id = R.dimen.padding_small)),
+                .padding(
+                    start = dimensionResource(id = R.dimen.padding_small),
+                    end = dimensionResource(id = R.dimen.padding_small),
+                    top = dimensionResource(id = R.dimen.padding_small)
+                ),
             paddingValues = paddingValues
         )
         is BookshelfUiState.Error -> ErrorScreen(
             retryEvent = retryEvent,
             modifier = modifier.fillMaxSize()
         )
+        is BookshelfUiState.TitleNotFound -> TitleNotFoundScreen(modifier = Modifier.fillMaxSize())
     }
 }
 
@@ -131,5 +139,28 @@ fun ErrorScreen(
                 style = MaterialTheme.typography.titleSmall
             )
         }
+    }
+}
+
+
+@Composable
+fun TitleNotFoundScreen(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_retry),
+            contentDescription = stringResource(R.string.connection_error),
+            modifier = Modifier.size(dimensionResource(id = R.dimen.image_size_medium))
+        )
+        Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_medium)))
+        Text(
+            text = stringResource(R.string.title_not_found_try_again_with_other),
+            style = MaterialTheme.typography.titleLarge
+        )
     }
 }
