@@ -7,4 +7,8 @@ class FakeNetworkBookshelfRepository : BooksRepository {
     override suspend fun getBooks(): Books {
         return FakeDataSource.books
     }
+
+    override suspend fun getBooksByName(name: String): Books? {
+        return FakeDataSource.books
+    }
 }

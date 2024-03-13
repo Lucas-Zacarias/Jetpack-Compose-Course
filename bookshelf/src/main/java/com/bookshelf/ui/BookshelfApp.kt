@@ -18,10 +18,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -31,9 +29,14 @@ import com.bookshelf.R
 @Composable
 fun BookshelfApp() {
     val viewModel: BookshelfViewModel = viewModel(factory = BookshelfViewModel.Factory)
+    val bookshelfUiState by viewModel.bookSearchUiState.collectAsState()
     Scaffold(
         topBar = {
             BookshelfTopBar(
+                bookSearchUiState = bookshelfUiState,
+                currentSearch = viewModel.currentSearch,
+                eventShowSearchBar = viewModel::openSearchBar,
+                eventHideSearchBar = viewModel::closeSearchBar,
                 eventResetUiStateFromStateTitleNotFound = viewModel::resetUiStateFromStateTitleNotFound,
                 eventGetBooksByName = {
                     viewModel.getBooksByName(it)
@@ -51,19 +54,16 @@ fun BookshelfApp() {
 }
 
 @Composable
-fun CustomSearch(
-    eventBackFromSearch: () -> Unit,
-    eventSearchBooksByName: (String) -> Unit,
+private fun CustomSearch(
+    currentSearch: String,
     eventResetUiStateFromStateTitleNotFound: () -> Unit,
-    modifier: Modifier = Modifier
+    eventBackFromSearch: () -> Unit,
+    modifier: Modifier = Modifier,
+    eventSearchBooksByName: (String) -> Unit
 ) {
-    var text by remember {
-        mutableStateOf("")
-    }
     TextField(
-        value = text,
+        value = currentSearch,
         onValueChange = {
-            text = it
             eventSearchBooksByName(it)
         },
         leadingIcon = {
@@ -74,12 +74,11 @@ fun CustomSearch(
                 modifier = Modifier.clickable { eventBackFromSearch() })
         },
         trailingIcon = {
-            if (text.isNotEmpty()) {
+            if (currentSearch.isNotEmpty()) {
                 Icon(
                     imageVector = Icons.Filled.Cancel,
                     contentDescription = null,
                     modifier = Modifier.clickable {
-                        text = ""
                         eventResetUiStateFromStateTitleNotFound()
                     },
                     tint = MaterialTheme.colorScheme.surface
@@ -107,13 +106,13 @@ fun CustomSearch(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun BookshelfTopBar(
-    eventGetBooksByName: (String) -> Unit,
+    bookSearchUiState: BookSearchUiState,
+    currentSearch: String,
+    eventHideSearchBar: () -> Unit,
     eventResetUiStateFromStateTitleNotFound: () -> Unit,
+    eventGetBooksByName: (String) -> Unit,
+    eventShowSearchBar: () -> Unit,
 ) {
-    var showSearchTopBar by remember {
-        mutableStateOf(false)
-    }
-
     CenterAlignedTopAppBar(
         title = {
             Text(text = stringResource(id = R.string.app_name))
@@ -123,13 +122,13 @@ private fun BookshelfTopBar(
             titleContentColor = MaterialTheme.colorScheme.surface
         ),
         actions = {
-            if (showSearchTopBar) {
+            if (bookSearchUiState.isSearchBarVisible) {
                 CustomSearch(
-                    eventBackFromSearch = { showSearchTopBar = false },
-                    eventSearchBooksByName = { eventGetBooksByName(it) },
+                    currentSearch = currentSearch,
                     eventResetUiStateFromStateTitleNotFound = eventResetUiStateFromStateTitleNotFound,
+                    eventBackFromSearch = eventHideSearchBar,
                     modifier = Modifier.fillMaxWidth()
-                )
+                ) { eventGetBooksByName(it) }
             } else {
                 Icon(
                     imageVector = Icons.Filled.Search,
@@ -137,7 +136,7 @@ private fun BookshelfTopBar(
                     modifier = Modifier
                         .padding(dimensionResource(id = R.dimen.padding_small))
                         .clickable {
-                            showSearchTopBar = true
+                            eventShowSearchBar()
                         },
                     tint = MaterialTheme.colorScheme.surface
                 )

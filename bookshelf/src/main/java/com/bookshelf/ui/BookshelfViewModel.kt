@@ -10,6 +10,10 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.bookshelf.BooksApplication
 import com.bookshelf.data.BooksRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.MissingFieldException
@@ -23,10 +27,18 @@ sealed interface BookshelfUiState {
     data object TitleNotFound: BookshelfUiState
 }
 
+data class BookSearchUiState(
+    val isSearchBarVisible: Boolean = false
+)
+
 class BookshelfViewModel(
     private val booksRepository: BooksRepository
 ) : ViewModel() {
     var uiState: BookshelfUiState by mutableStateOf(BookshelfUiState.Loading)
+    private val _bookSearchUiState = MutableStateFlow(BookSearchUiState())
+    val bookSearchUiState: StateFlow<BookSearchUiState> = _bookSearchUiState.asStateFlow()
+    var currentSearch by mutableStateOf("")
+        private set
     init {
         getBooks()
     }
@@ -47,6 +59,7 @@ class BookshelfViewModel(
     @OptIn(ExperimentalSerializationApi::class)
     fun getBooksByName(name: String) {
         viewModelScope.launch {
+            currentSearch = name
             uiState = try {
                 BookshelfUiState.Success(booksRepository.getBooksByName(name)?.booksToHttpsList() ?: emptyList())
             } catch (e: MissingFieldException) {
@@ -60,7 +73,29 @@ class BookshelfViewModel(
             if(uiState is BookshelfUiState.TitleNotFound) {
                 getBooks()
             }
+            resetRecentSearch()
         }
+    }
+
+    fun openSearchBar() {
+        _bookSearchUiState.update {
+            it.copy(
+                isSearchBarVisible = true
+            )
+        }
+    }
+
+    fun closeSearchBar() {
+        _bookSearchUiState.update {
+            it.copy(
+                isSearchBarVisible = false
+            )
+        }
+        currentSearch = ""
+    }
+
+    private fun resetRecentSearch() {
+        currentSearch = ""
     }
 
     companion object {
