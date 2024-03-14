@@ -28,6 +28,8 @@ import com.inventory.ui.navigation.NavigationDestination
 import com.inventory.ui.theme.InventoryTheme
 import java.util.Currency
 import java.util.Locale
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
 
 object ItemEntryDestination : NavigationDestination {
     override val route = "item_entry"
@@ -51,10 +53,17 @@ fun ItemEntryScreen(
             )
         }
     ) { innerPadding ->
+        val coroutineScope = rememberCoroutineScope()
+
         ItemEntryBody(
             itemUiState = viewModel.itemUiState,
             onItemValueChange = viewModel::updateUiState,
-            onSaveClick = { },
+            onSaveClick = {
+                coroutineScope.launch {
+                    viewModel.saveItem()
+                    navigateBack()
+                }
+            },
             modifier = Modifier
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
