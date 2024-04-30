@@ -18,7 +18,21 @@ interface AirportDao {
         SELECT *
         FROM airport
         WHERE iata_code LIKE '%' || :iataCode || '%'
-        ORDER BY name ASC
+        ORDER BY iata_code ASC
     """)
     fun getAirportsByIATACode(iataCode: String): Flow<List<Airport>>
+
+    @Query("""
+        SELECT *
+        FROM airport
+        ORDER BY name ASC
+    """)
+    fun getAllAirportsByName(): Flow<List<Airport>>
+
+    @Query("""
+        SELECT *
+        FROM airport
+        ORDER BY iata_code ASC
+    """)
+    fun getAllAirportsByIATACode(): Flow<List<Airport>>
 }

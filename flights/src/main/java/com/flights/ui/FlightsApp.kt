@@ -8,7 +8,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Checkbox
@@ -26,12 +29,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.flights.R
+import com.flights.data.Airport
 import com.flights.ui.theme.FlightsTheme
 
 @Composable
@@ -83,14 +90,12 @@ private fun HomeContent(
     ) {
         AirportsSearchBar(
             uiState = uiState,
-            changeSearchStrategyEvent = {
-                viewModel.changeSearchStrategy(it)
-            },
-            updateSearchEvent = {
-                viewModel.updateSearch(it)
-            })
+            changeSearchStrategyEvent = { viewModel.changeSearchStrategy(it) },
+            updateSearchEvent = { viewModel.updateCurrentSearch(it) },
+            searchAirport = { viewModel.searchAirports(it) }
+        )
         Spacer(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_medium)))
-        AirportsList()
+        AirportsList(airports = viewModel.uiState.collectAsState().value.airports)
     }
 }
 
@@ -99,21 +104,21 @@ private fun AirportsSearchBar(
     uiState: FlightUiState,
     changeSearchStrategyEvent: (Boolean) -> Unit,
     updateSearchEvent: (FlightUiState) -> Unit,
+    searchAirport: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
     TextField(
         value = uiState.currentSearch,
         onValueChange = {
+            searchAirport(it)
             if (uiState.isSearchingByIATACode) {
                 if (it.length <= 3) {
                     updateSearchEvent(uiState.copy(currentSearch = it))
-                    //uiState.currentSearch = it
-                    //updateSearchEvent(it)
                 }
             } else {
                 updateSearchEvent(uiState.copy(currentSearch = it))
-                //uiState.currentSearch = it
-                //updateSearchEvent(it)
             }
         },
         leadingIcon = {
@@ -153,12 +158,22 @@ private fun AirportsSearchBar(
             bottomStart = dimensionResource(id = R.dimen.no_padding),
             bottomEnd = dimensionResource(id = R.dimen.no_padding)
         ),
-        maxLines = 1
+        maxLines = 1,
+        keyboardOptions = KeyboardOptions.Default.copy(
+            imeAction = ImeAction.Search
+        ),
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                focusManager.clearFocus()
+                keyboardController?.hide()
+            }
+        )
     )
 }
 
 @Composable
 private fun AirportsList(
+    airports: List<Airport>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -166,8 +181,8 @@ private fun AirportsList(
     ) {
         Spacer(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_medium)))
         LazyColumn {
-            items(5) {
-                FlightItem()
+            items(airports, key = { airport -> airport.id }) { airport ->
+                FlightItem(airport = airport)
             }
         }
     }
@@ -175,6 +190,7 @@ private fun AirportsList(
 
 @Composable
 private fun FlightItem(
+    airport: Airport,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -182,11 +198,11 @@ private fun FlightItem(
         modifier = modifier
     ) {
         Text(
-            text = "COD",
+            text = airport.iataCode,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small)))
-        Text(text = "Airport name")
+        Text(text = airport.name)
     }
 }
 
