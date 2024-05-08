@@ -1,6 +1,7 @@
 package com.flights.ui
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,14 +10,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -25,6 +29,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -37,46 +42,112 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.flights.R
 import com.flights.data.Airport
 import com.flights.ui.theme.FlightsTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun FlightsApp() {
+    val navController: NavHostController = rememberNavController()
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentScreen = TitleUtil.findTitle(backStackEntry?.destination?.route ?: Screens.Home.route)
+
     Scaffold(
         topBar = {
-            FlightsTopBar()
+            FlightsTopBar(
+                currentScreen = currentScreen,
+                canNavigateBack = navController.previousBackStackEntry != null,
+                onBackClick = { navController.navigateUp() }
+            )
         }
     ) { contentPadding ->
-        val viewModel: FlightsViewModel = viewModel(factory = FlightsViewModel.factory)
-        val uiState by viewModel.uiState.collectAsState()
-        HomeContent(
-            viewModel = viewModel,
-            uiState = uiState,
-            modifier = Modifier.padding(contentPadding)
-        )
+        NavHost(
+            navController = navController,
+            startDestination = Screens.Home.route
+        ) {
+            composable(route = Screens.Home.route) {
+                val viewModel: FlightsViewModel = viewModel(factory = FlightsViewModel.factory)
+                val uiState by viewModel.uiState.collectAsState()
+                HomeContent(
+                    viewModel = viewModel,
+                    uiState = uiState,
+                    onAirportClick = { airport: Airport ->
+                        navController.navigate(
+                            route = Screens.FlightsRecommendations.withArgs(airport.iataCode)
+                        )
+                    },
+                    modifier = Modifier.padding(contentPadding)
+                )
+            }
+
+            composable(
+                route = Screens.FlightsRecommendations.route + "/{iataCodeSelected}",
+                arguments = listOf(navArgument("iataCodeSelected"){
+                    type = NavType.StringType
+                })
+            ) {backStackEntry ->
+                val airportSelected = backStackEntry.arguments?.getString("iataCodeSelected")
+                    ?: error("Airport argument not found")
+                
+                FlightsRecommendationsScreen(
+                    airportSelected = airportSelected,
+                    onBackHandler = { navController.navigateUp() },
+                    modifier = Modifier.padding(contentPadding)
+                )
+            }
+        }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun FlightsTopBar() {
+private fun FlightsTopBar(
+    currentScreen: Screens,
+    canNavigateBack: Boolean,
+    onBackClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     TopAppBar(
         title = {
             Text(
-                text = stringResource(R.string.top_bar_title),
-                style = MaterialTheme.typography.titleLarge)
+                text = stringResource(id = currentScreen.title),
+                style = MaterialTheme.typography.titleLarge
+            )
+        },
+        navigationIcon = {
+            if (canNavigateBack) {
+                IconButton(onClick = onBackClick) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        tint = MaterialTheme.colorScheme.background,
+                        contentDescription = stringResource(R.string.back_button)
+                    )
+                }
+            }
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.background
-        ))
+        ),
+        modifier = modifier
+    )
 }
 
 @Composable
 private fun HomeContent(
     viewModel: FlightsViewModel,
     uiState: FlightUiState,
+    onAirportClick: (Airport) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -95,7 +166,10 @@ private fun HomeContent(
             searchAirport = { viewModel.searchAirports(it) }
         )
         Spacer(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_medium)))
-        AirportsList(airports = viewModel.uiState.collectAsState().value.airports)
+        AirportsList(
+            airports = viewModel.uiState.collectAsState().value.airports,
+            onAirportClick = onAirportClick
+        )
     }
 }
 
@@ -145,7 +219,7 @@ private fun AirportsSearchBar(
             .fillMaxWidth(),
         placeholder = {
             Text(
-                text = if(uiState.isSearchingByIATACode) {
+                text = if (uiState.isSearchingByIATACode) {
                     stringResource(R.string.search_airport_by_iata)
                 } else {
                     stringResource(R.string.search_airport_by_name)
@@ -174,7 +248,8 @@ private fun AirportsSearchBar(
 @Composable
 private fun AirportsList(
     airports: List<Airport>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onAirportClick: (Airport) -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
@@ -182,7 +257,12 @@ private fun AirportsList(
         Spacer(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_medium)))
         LazyColumn {
             items(airports, key = { airport -> airport.id }) { airport ->
-                FlightItem(airport = airport)
+                FlightItem(
+                    airport = airport,
+                    onClick = {
+                        onAirportClick(it)
+                    }
+                )
             }
         }
     }
@@ -191,11 +271,14 @@ private fun AirportsList(
 @Composable
 private fun FlightItem(
     airport: Airport,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (Airport) -> Unit
 ) {
     Row(
         horizontalArrangement = Arrangement.Start,
-        modifier = modifier
+        modifier = modifier.clickable {
+            onClick(airport)
+        }
     ) {
         Text(
             text = airport.iataCode,

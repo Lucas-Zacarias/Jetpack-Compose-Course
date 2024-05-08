@@ -35,4 +35,11 @@ interface AirportDao {
         ORDER BY iata_code ASC
     """)
     fun getAllAirportsByIATACode(): Flow<List<Airport>>
+
+    @Query("""
+        SELECT *
+        FROM airport
+        WHERE iata_code = :iataCode
+    """)
+    fun getAirportByCod(iataCode: String): Flow<Airport>
 }

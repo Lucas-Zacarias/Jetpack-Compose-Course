@@ -3,4 +3,8 @@
     <string name="top_bar_title">Flights Search</string>
     <string name="search_airport_by_name">Enter departure airport</string>
     <string name="search_airport_by_iata">Enter departure airport IATA</string>
+    <string name="depart">DEPART</string>
+    <string name="arrive">ARRIVE</string>
+    <string name="flights_from">Flights From</string>
+    <string name="back_button">back button</string>
 </resources>

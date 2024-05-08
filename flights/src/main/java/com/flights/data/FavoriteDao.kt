@@ -14,6 +14,18 @@ interface FavoriteDao {
     """)
     fun getAllFavorites(): Flow<List<Favorite>>
 
+    @Query(
+        """
+        SELECT 
+        EXISTS(
+                SELECT 1 
+                FROM favorite
+                WHERE departure_code = :departureCode AND destination_code = :destinationCode
+                )
+    """
+    )
+    fun isFavorite(departureCode: String, destinationCode: String): Flow<Boolean>
+
     @Insert
     suspend fun addFlight(favorite: Favorite)
 
