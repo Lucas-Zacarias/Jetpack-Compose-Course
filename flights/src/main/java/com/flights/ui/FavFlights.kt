@@ -1,6 +1,5 @@
 package com.flights.ui
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,41 +19,43 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import com.flights.R
-import com.flights.data.Favorite
-import com.flights.ui.theme.FlightsTheme
+import com.flights.data.RecommendationFlight
 
 @Composable
-fun FavFlights(
-    favFlights: List<Favorite>,
-    modifier: Modifier = Modifier
+fun Flights(
+    flights: List<RecommendationFlight>,
+    addFlightToFavoritesEvent: (RecommendationFlight) -> Unit,
+    removeFlightFromFavoritesEvent: (RecommendationFlight) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium)),
         modifier = modifier
     ) {
-        items(favFlights) {
-            FavFlightItem(it)
+        items(flights) {
+            FlightItem(
+                flight = it,
+                addFlightToFavoritesEvent = addFlightToFavoritesEvent,
+                removeFlightFromFavoritesEvent = removeFlightFromFavoritesEvent
+            )
         }
     }
 }
 
 @Composable
-private fun FavFlightItem(
-    favFlight: Favorite? = null,
+private fun FlightItem(
+    flight: RecommendationFlight,
+    addFlightToFavoritesEvent: (RecommendationFlight) -> Unit,
+    removeFlightFromFavoritesEvent: (RecommendationFlight) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var favorite by remember { mutableStateOf(false) }
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
@@ -84,12 +85,12 @@ private fun FavFlightItem(
                     modifier = modifier
                 ) {
                     Text(
-                        text = "EZE",
+                        text = flight.departureIataCode,
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small)))
                     Text(
-                        text = "Aeropuerto de Ezeiza",
+                        text = flight.departureAirportName,
                         fontWeight = FontWeight.Light
                     )
                 }
@@ -103,30 +104,21 @@ private fun FavFlightItem(
                     modifier = modifier
                 ) {
                     Text(
-                        text = "AER",
+                        text = flight.destinationIataCode,
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small)))
                     Text(
-                        text = "Aeroparque",
+                        text = flight.destinationAirportName,
                         fontWeight = FontWeight.Light
                     )
                 }
             }
-            IconButton(onClick = { favorite = !favorite },
+            IconButton(onClick = { if(flight.isFavorite) removeFlightFromFavoritesEvent(flight) else addFlightToFavoritesEvent(flight)},
                 modifier = Modifier.weight(0.1f)
             ) {
-                Icon(imageVector = if(favorite) Icons.Outlined.Star else Icons.Outlined.StarBorder, contentDescription = null)
+                Icon(imageVector = if(flight.isFavorite) Icons.Outlined.Star else Icons.Outlined.StarBorder, contentDescription = null)
             }
         }
-    }
-}
-
-@Preview
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-fun FavFlightsPreview() {
-    FlightsTheme {
-        FavFlightItem()
     }
 }

@@ -7,4 +7,5 @@
     <string name="arrive">ARRIVE</string>
     <string name="flights_from">Flights From</string>
     <string name="back_button">back button</string>
+    <string name="recommended_flights_from">Recommended Flights From %s</string>
 </resources>

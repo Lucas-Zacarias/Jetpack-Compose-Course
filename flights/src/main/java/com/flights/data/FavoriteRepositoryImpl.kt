@@ -16,4 +16,8 @@ class FavoriteRepositoryImpl(
     override suspend fun delete(favorite: Favorite) {
         favoriteDao.delete(favorite)
     }
+
+    override suspend fun isFavorite(departureCode: String, destinationCode: String): Int {
+        return favoriteDao.isFavorite(departureCode, departureCode)
+    }
 }

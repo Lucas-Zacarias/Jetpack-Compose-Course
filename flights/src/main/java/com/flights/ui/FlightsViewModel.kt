@@ -84,6 +84,15 @@ class FlightsViewModel(
         _uiState.value = flightUiState
     }
 
+    fun cleanCurrentSearch() {
+        _uiState.update {
+            it.copy(
+                currentSearch = ""
+            )
+        }
+        searchAirports()
+    }
+
     companion object {
         val factory = viewModelFactory {
             initializer {

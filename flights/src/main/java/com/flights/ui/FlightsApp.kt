@@ -10,12 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,7 +29,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -51,10 +50,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.flights.R
 import com.flights.data.Airport
+import com.flights.ui.Screens.FlightsRecommendations.withArgs
 import com.flights.ui.theme.FlightsTheme
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Composable
 fun FlightsApp() {
@@ -83,7 +80,7 @@ fun FlightsApp() {
                     uiState = uiState,
                     onAirportClick = { airport: Airport ->
                         navController.navigate(
-                            route = Screens.FlightsRecommendations.withArgs(airport.iataCode)
+                            route = Screens.FlightsRecommendations.withArgs(airport.iataCode, airport.name)
                         )
                     },
                     modifier = Modifier.padding(contentPadding)
@@ -91,16 +88,29 @@ fun FlightsApp() {
             }
 
             composable(
-                route = Screens.FlightsRecommendations.route + "/{iataCodeSelected}",
-                arguments = listOf(navArgument("iataCodeSelected"){
-                    type = NavType.StringType
-                })
-            ) {backStackEntry ->
-                val airportSelected = backStackEntry.arguments?.getString("iataCodeSelected")
-                    ?: error("Airport argument not found")
-                
+                route = Screens.FlightsRecommendations.route + "/{iataCodeAirportSelected}/{nameAirportSelected}",
+                arguments = listOf(
+                    navArgument("iataCodeAirportSelected") {
+                        type = NavType.StringType
+                    },
+                    navArgument("nameAirportSelected") {
+                        type = NavType.StringType
+                    }
+                )
+            ){backStackEntry ->
+                val iataCodeAirportSelected = backStackEntry.arguments?.getString("iataCodeAirportSelected")
+                    ?: error("Airport IATA code argument not found")
+                val nameAirportSelected = backStackEntry.arguments?.getString("nameAirportSelected")
+                    ?: error("Airport name argument not found")
+
+                val viewModel: FlightsRecommendationsViewModel = viewModel(factory = FlightsRecommendationsViewModel.factory)
+                viewModel.getFlightsRecommendations(iataCodeAirportSelected, nameAirportSelected)
+                val uiState by viewModel.uiState.collectAsState()
+
                 FlightsRecommendationsScreen(
-                    airportSelected = airportSelected,
+                    uiState = uiState,
+                    addFlightToFavoritesEvent = {viewModel.addFlightToFavorites(it)},
+                    removeFlightFromFavoritesEvent = {viewModel.removeFlightFromFavorites(it)},
                     onBackHandler = { navController.navigateUp() },
                     modifier = Modifier.padding(contentPadding)
                 )
@@ -163,9 +173,10 @@ private fun HomeContent(
             uiState = uiState,
             changeSearchStrategyEvent = { viewModel.changeSearchStrategy(it) },
             updateSearchEvent = { viewModel.updateCurrentSearch(it) },
-            searchAirport = { viewModel.searchAirports(it) }
+            searchAirport = { viewModel.searchAirports(it) },
+            cleanCurrentSearchEvent = { viewModel.cleanCurrentSearch() }
         )
-        Spacer(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_medium)))
+        Spacer(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_small)))
         AirportsList(
             airports = viewModel.uiState.collectAsState().value.airports,
             onAirportClick = onAirportClick
@@ -179,6 +190,7 @@ private fun AirportsSearchBar(
     changeSearchStrategyEvent: (Boolean) -> Unit,
     updateSearchEvent: (FlightUiState) -> Unit,
     searchAirport: (String) -> Unit,
+    cleanCurrentSearchEvent: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -202,12 +214,27 @@ private fun AirportsSearchBar(
             )
         },
         trailingIcon = {
-            Checkbox(
-                checked = uiState.isSearchingByIATACode,
-                onCheckedChange = {
-                    changeSearchStrategyEvent(it)
+            Row {
+                if(uiState.currentSearch.isNotEmpty()) {
+                    IconButton(
+                        onClick = {
+                            cleanCurrentSearchEvent()
+                        }, content = {
+                            Icon(
+                                imageVector = Icons.Filled.Clear,
+                                contentDescription = null
+                            )
+                        }
+                    )
                 }
-            )
+                Checkbox(
+                    checked = uiState.isSearchingByIATACode,
+                    onCheckedChange = {
+                        changeSearchStrategyEvent(it)
+                    }
+                )
+            }
+
         },
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -254,7 +281,6 @@ private fun AirportsList(
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
-        Spacer(modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_medium)))
         LazyColumn {
             items(airports, key = { airport -> airport.id }) { airport ->
                 FlightItem(

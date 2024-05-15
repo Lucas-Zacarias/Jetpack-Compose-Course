@@ -24,7 +24,7 @@ interface FavoriteDao {
                 )
     """
     )
-    fun isFavorite(departureCode: String, destinationCode: String): Flow<Boolean>
+    suspend fun isFavorite(departureCode: String, destinationCode: String): Int
 
     @Insert
     suspend fun addFlight(favorite: Favorite)

@@ -20,4 +20,8 @@ class AirportRepositoryImpl(
     override fun getAllAirportsByIATACode(): Flow<List<Airport>> {
         return airportDao.getAllAirportsByIATACode()
     }
+
+    override fun getAirportByIATACode(iataCode: String): Flow<Airport> {
+        return airportDao.getAirportByCod(iataCode)
+    }
 }

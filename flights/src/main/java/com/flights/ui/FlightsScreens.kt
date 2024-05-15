@@ -10,10 +10,12 @@ sealed class Screens(
     data object Home : Screens(route = "home", title = R.string.app_name)
     data object FlightsRecommendations : Screens(route = "flights_from", title = R.string.flights_from)
 
-    fun withArgs(args: String): String {
+    fun FlightsRecommendations.withArgs(vararg args: String): String {
         return buildString {
             append(route)
-            append("/$args")
+            args.forEach {
+                append("/$it")
+            }
         }
     }
 

@@ -2,32 +2,44 @@ package com.flights.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.flights.ui.theme.FlightsTheme
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import com.flights.R
+import com.flights.data.RecommendationFlight
 
 @Composable
 fun FlightsRecommendationsScreen(
-    airportSelected: String,
+    uiState: UiState,
+    addFlightToFavoritesEvent: (RecommendationFlight) -> Unit,
+    removeFlightFromFavoritesEvent: (RecommendationFlight) -> Unit,
     onBackHandler: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     BackHandler {
         onBackHandler()
     }
     Column(
-        modifier = modifier
+        modifier = modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_medium))
     ) {
-        Text(text = "Flights recommendations for $airportSelected")
+        Text(
+            text = stringResource(R.string.recommended_flights_from, uiState.currentAirportCode),
+            style = MaterialTheme.typography.titleLarge,
+            fontStyle = FontStyle.Italic,
+            fontWeight = FontWeight.Light,
+            modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.padding_medium))
+        )
+        Flights(
+            flights = uiState.recommendedFlights,
+            addFlightToFavoritesEvent = addFlightToFavoritesEvent,
+            removeFlightFromFavoritesEvent = removeFlightFromFavoritesEvent
+        )
     }
-}
 
-@Preview(showBackground = true)
-@Composable
-fun Preview() {
-    FlightsTheme {
-        FlightsRecommendationsScreen(airportSelected = "EZE", onBackHandler = {})
-    }
 }
