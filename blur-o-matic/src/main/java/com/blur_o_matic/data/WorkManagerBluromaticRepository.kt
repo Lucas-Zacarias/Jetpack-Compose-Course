@@ -8,11 +8,13 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.blur_o_matic.KEY_BLUR_LEVEL
 import com.blur_o_matic.KEY_IMAGE_URI
+import com.blur_o_matic.getImageUri
 import com.blur_o_matic.workers.BlurWorker
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class WorkManagerBluromaticRepository(context: Context) : BluromaticRepository {
+    private var imageUri: Uri = context.getImageUri()
     private val workManager = WorkManager.getInstance(context)
 
     override val outputWorkInfo: Flow<WorkInfo?> = MutableStateFlow(null)
@@ -24,6 +26,9 @@ class WorkManagerBluromaticRepository(context: Context) : BluromaticRepository {
     override fun applyBlur(blurLevel: Int) {
         // Create WorkRequest to blur the image
         val blurBuilder = OneTimeWorkRequestBuilder<BlurWorker>()
+
+        blurBuilder
+            .setInputData(createInputDataForWorkRequest(blurLevel = blurLevel, imageUri = imageUri))
 
         // Start the work
         workManager.enqueue(blurBuilder.build())
