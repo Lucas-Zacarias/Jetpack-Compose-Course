@@ -17,13 +17,16 @@ import com.blur_o_matic.workers.BlurWorker
 import com.blur_o_matic.workers.CleanupWorker
 import com.blur_o_matic.workers.SaveImageToFileWorker
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.mapNotNull
 
 class WorkManagerBluromaticRepository(context: Context) : BluromaticRepository {
     private var imageUri: Uri = context.getImageUri()
     private val workManager = WorkManager.getInstance(context)
 
-    override val outputWorkInfo: Flow<WorkInfo?> = MutableStateFlow(null)
+    override val outputWorkInfo: Flow<WorkInfo> =
+        workManager.getWorkInfosByTagFlow(TAG_OUTPUT).mapNotNull {
+            if (it.isNotEmpty()) it.first() else null
+        }
 
     /**
      * Create the WorkRequests to apply the blur and save the resulting image
