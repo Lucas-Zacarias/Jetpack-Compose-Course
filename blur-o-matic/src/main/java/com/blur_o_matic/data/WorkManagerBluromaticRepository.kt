@@ -11,6 +11,7 @@ import androidx.work.WorkManager
 import com.blur_o_matic.IMAGE_MANIPULATION_WORK_NAME
 import com.blur_o_matic.KEY_BLUR_LEVEL
 import com.blur_o_matic.KEY_IMAGE_URI
+import com.blur_o_matic.TAG_OUTPUT
 import com.blur_o_matic.getImageUri
 import com.blur_o_matic.workers.BlurWorker
 import com.blur_o_matic.workers.CleanupWorker
@@ -40,15 +41,17 @@ class WorkManagerBluromaticRepository(context: Context) : BluromaticRepository {
 
         // Create WorkRequest to blur the image
         val blurBuilder = OneTimeWorkRequestBuilder<BlurWorker>()
-
-        blurBuilder
             .setInputData(createInputDataForWorkRequest(blurLevel = blurLevel, imageUri = imageUri))
+            .build()
 
-        continuation = continuation.then(blurBuilder.build())
+
+        continuation = continuation.then(blurBuilder)
 
         val save = OneTimeWorkRequestBuilder<SaveImageToFileWorker>()
+            .addTag(TAG_OUTPUT)
+            .build()
 
-        continuation = continuation.then(save.build())
+        continuation = continuation.then(save)
 
         // Actually start the work
         continuation.enqueue()
