@@ -2,6 +2,7 @@ package com.blur_o_matic.data
 
 import android.content.Context
 import android.net.Uri
+import androidx.work.Constraints
 import androidx.work.Data
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
@@ -42,13 +43,19 @@ class WorkManagerBluromaticRepository(context: Context) : BluromaticRepository {
                 OneTimeWorkRequest.from(CleanupWorker::class.java)
             )
 
-        // Create WorkRequest to blur the image
-        val blurBuilder = OneTimeWorkRequestBuilder<BlurWorker>()
-            .setInputData(createInputDataForWorkRequest(blurLevel = blurLevel, imageUri = imageUri))
+        val constraints = Constraints.Builder()
+            .setRequiresBatteryNotLow(true)
             .build()
 
 
-        continuation = continuation.then(blurBuilder)
+        // Create WorkRequest to blur the image
+        val blurBuilder = OneTimeWorkRequestBuilder<BlurWorker>()
+            .setInputData(createInputDataForWorkRequest(blurLevel = blurLevel, imageUri = imageUri))
+
+        blurBuilder.setConstraints(constraints)
+
+
+        continuation = continuation.then(blurBuilder.build())
 
         val save = OneTimeWorkRequestBuilder<SaveImageToFileWorker>()
             .addTag(TAG_OUTPUT)
