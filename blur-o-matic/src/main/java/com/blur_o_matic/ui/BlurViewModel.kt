@@ -8,9 +8,9 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.work.WorkInfo
 import com.blur_o_matic.BluromaticApplication
+import com.blur_o_matic.KEY_IMAGE_URI
 import com.blur_o_matic.data.BlurAmountData
 import com.blur_o_matic.data.BluromaticRepository
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -26,9 +26,10 @@ class BlurViewModel(private val bluromaticRepository: BluromaticRepository) : Vi
 
     val blurUiState: StateFlow<BlurUiState> = bluromaticRepository.outputWorkInfo
         .map { info ->
+            val outputImageUri = info.outputData.getString(KEY_IMAGE_URI)
             when {
-                info.state.isFinished -> {
-                    BlurUiState.Complete(outputUri = "")
+                info.state.isFinished && !outputImageUri.isNullOrEmpty() -> {
+                    BlurUiState.Complete(outputUri = outputImageUri)
                 }
                 info.state == WorkInfo.State.CANCELLED -> {
                     BlurUiState.Default
