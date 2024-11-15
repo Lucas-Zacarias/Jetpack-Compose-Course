@@ -1,8 +1,8 @@
 package com.waterme.data
 
 import android.content.Context
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.waterme.model.Plant
@@ -18,13 +18,16 @@ class WorkManagerWaterRepository(context: Context) : WaterRepository {
 
     override fun scheduleReminder(duration: Long, unit: TimeUnit, plantName: String) {
         val workName = "$plantName $duration $unit"
-        val waterReminderWorker = OneTimeWorkRequestBuilder<WaterReminderWorker>()
-            .setInputData(workDataOf(nameKey to plantName))
-            .build()
+        val waterReminderWorker = PeriodicWorkRequestBuilder<WaterReminderWorker>(
+            repeatInterval = duration,
+            repeatIntervalTimeUnit = unit
+        ).setInputData(
+            workDataOf(nameKey to plantName)
+        ).build()
 
-        workManager.enqueueUniqueWork(
+        workManager.enqueueUniquePeriodicWork(
             workName,
-            ExistingWorkPolicy.REPLACE,
+            ExistingPeriodicWorkPolicy.REPLACE,
             waterReminderWorker
         )
     }
