@@ -17,6 +17,7 @@ package com.juicetrackercompose.ui
  */
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -28,8 +29,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.juicetrackercompose.R
 import com.juicetrackercompose.ui.bottomsheet.EntryBottomSheet
+import com.juicetrackercompose.ui.homescreen.AdBanner
 import com.juicetrackercompose.ui.homescreen.JuiceTrackerFAB
 import com.juicetrackercompose.ui.homescreen.JuiceTrackerList
 import com.juicetrackercompose.ui.homescreen.JuiceTrackerTopAppBar
@@ -83,6 +87,13 @@ fun JuiceTrackerApp(
             }
         ) { contentPadding ->
             Column(Modifier.padding(contentPadding)) {
+                AdBanner(
+                    modifier =
+                    Modifier.fillMaxWidth().padding(
+                        top = dimensionResource(R.dimen.padding_medium),
+                        bottom = dimensionResource(R.dimen.padding_small)
+                    )
+                )
                 JuiceTrackerList(
                     juices = trackerState,
                     onDelete = { juice -> juiceTrackerViewModel.deleteJuice(juice) },
